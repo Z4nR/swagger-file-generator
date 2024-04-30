@@ -39,6 +39,7 @@ export function SwaggerForm() {
           control={form.control}
           name="username"
           render={({ field }) => (
+            <>
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
@@ -49,6 +50,17 @@ export function SwaggerForm() {
               </FormDescription>
               <FormMessage />
             </FormItem>
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+            </>
           )}
         />
         <Button type="submit">Submit</Button>
