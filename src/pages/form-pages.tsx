@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -35,7 +34,7 @@ const formSchema = z.object({
   licenseUrl: z.string().url({ message: 'License URL is required' }),
 });
 
-export function SwaggerForm() {
+const SwaggerForm: React.FC = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,9 +47,9 @@ export function SwaggerForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
-  }
+  };
 
   return (
     <Form {...form}>
@@ -166,4 +165,6 @@ export function SwaggerForm() {
       </form>
     </Form>
   );
-}
+};
+
+export default SwaggerForm;

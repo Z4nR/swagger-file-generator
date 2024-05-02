@@ -1,8 +1,8 @@
 import { Separator } from './components/ui/separator';
-import { SwaggerForm } from './pages/form-pages';
+import SwaggerForm from './pages/form-pages';
 import './styles/index.css';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="w-full">
       <div className="max-w-xl my-0 mx-auto py-2">
@@ -14,6 +14,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
