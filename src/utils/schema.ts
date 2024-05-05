@@ -49,6 +49,15 @@ export const pathFormSchema = z.object({
           message: 'You have to select at least one item.',
         }),
       endpoint: z.string({ required_error: 'Endpoint required' }),
+      parameters: z.array(
+        z.object({
+          name: z.string().optional(),
+          in: z.string().optional(),
+          description: z.string().optional(),
+          required: z.boolean().optional(),
+          type: z.string().optional(),
+        })
+      ),
     })
   ),
 });

@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { basicFormSchema, pathFormSchema } from '@/utils/schema';
+import { pathFormSchema } from '@/utils/schema';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const items = [
@@ -45,18 +45,25 @@ const defaultValues: Partial<SwaggerSchema> = {
     {
       method: ['post', 'get'],
       endpoint: '',
+      parameters: [
+        { name: '', in: '', required: false, description: '', type: '' },
+      ],
     },
   ],
 };
 
 const PathPartForm: React.FC = () => {
   const form = useForm<SwaggerSchema>({
-    resolver: zodResolver(basicFormSchema),
+    resolver: zodResolver(pathFormSchema),
     defaultValues,
     mode: 'onChange',
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: paths,
+    append: appendPath,
+    remove: removePath,
+  } = useFieldArray({
     name: 'paths',
     control: form.control,
   });
@@ -73,50 +80,44 @@ const PathPartForm: React.FC = () => {
             Endpoint
           </h4>
           <div className="space-y-6">
-            {fields.map((field, index) => (
-              <div className="flex flex-col gap-2" key={field.id}>
+            {paths.map((field, pathIndex) => (
+              <div className="flex flex-col gap-2" key={pathIndex}>
                 <FormField
                   control={form.control}
-                  name={`paths.${index}.method`}
+                  name={`paths.${pathIndex}.method`}
                   render={() => (
                     <FormItem>
                       <FormLabel>HTTP Method</FormLabel>
                       <div className="flex flex-row gap-4">
                         {items.map((item) => (
-                          <FormField
+                          <FormItem
                             key={item.id}
-                            control={form.control}
-                            name={`paths.${index}.method`}
-                            render={({ field }) => {
-                              return (
-                                <FormItem
-                                  key={item.id}
-                                  className="flex flex-row items-start space-x-1 space-y-0"
-                                >
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value?.includes(item.id)}
-                                      onCheckedChange={(checked: boolean) => {
-                                        return checked
-                                          ? field.onChange([
-                                              ...field.value,
-                                              item.id,
-                                            ])
-                                          : field.onChange(
-                                              field.value?.filter(
-                                                (value) => value !== item.id
-                                              )
-                                            );
-                                      }}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className="font-normal">
-                                    {item.label}
-                                  </FormLabel>
-                                </FormItem>
-                              );
-                            }}
-                          />
+                            className="flex flex-row items-start space-x-1 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={paths[pathIndex].method.includes(
+                                  item.id
+                                )}
+                                onCheckedChange={(checked: boolean) =>
+                                  checked
+                                    ? form.setValue(
+                                        `paths.${pathIndex}.method`,
+                                        [...paths[pathIndex].method, item.id]
+                                      )
+                                    : form.setValue(
+                                        `paths.${pathIndex}.method`,
+                                        paths[pathIndex].method.filter(
+                                          (value) => value !== item.id
+                                        )
+                                      )
+                                }
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {item.label}
+                            </FormLabel>
+                          </FormItem>
                         ))}
                       </div>
                       <FormMessage />
@@ -125,7 +126,7 @@ const PathPartForm: React.FC = () => {
                 />
                 <FormField
                   control={form.control}
-                  name={`paths.${index}.endpoint`}
+                  name={`paths.${pathIndex}.endpoint`}
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Endpoint</FormLabel>
@@ -136,6 +137,26 @@ const PathPartForm: React.FC = () => {
                     </FormItem>
                   )}
                 />
+                {field.parameters.map((_, parameterIndex) => (
+                  <div key={parameterIndex}>
+                    <FormField
+                      control={form.control}
+                      name={`paths.${pathIndex}.parameters.${parameterIndex}.name`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Parameter Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter parameter name"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
               </div>
             ))}
             <Button
@@ -143,7 +164,13 @@ const PathPartForm: React.FC = () => {
               variant="outline"
               size="sm"
               className="mt-2"
-              onClick={() => append({ endpoint: '', method: [] })}
+              onClick={() =>
+                appendPath({
+                  endpoint: '',
+                  method: [],
+                  parameters: [{ name: '' }],
+                })
+              }
             >
               Add Endpoint
             </Button>
@@ -153,11 +180,11 @@ const PathPartForm: React.FC = () => {
               size="sm"
               className="mt-2 ml-1 bg-red-300 hover:bg-red-500 hover:text-white"
               onClick={() => {
-                if (fields.length > 1) {
-                  remove(fields.length - 1);
+                if (paths.length > 1) {
+                  removePath(paths.length - 1);
                 }
               }}
-              disabled={fields.length === 1}
+              disabled={paths.length === 1}
             >
               Remove Endpoint
             </Button>
