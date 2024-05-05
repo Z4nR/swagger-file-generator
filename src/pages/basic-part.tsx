@@ -21,9 +21,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { formSchema } from '@/utils/schema';
+import { basicFormSchema } from '@/utils/schema';
+import useSgaggerState from '@/utils/state/state';
+import { Basic } from '@/utils/state/types';
 
-type SwaggerSchema = z.infer<typeof formSchema>;
+type SwaggerSchema = z.infer<typeof basicFormSchema>;
 
 const defaultValues: Partial<SwaggerSchema> = {
   swagger: '3.0.3',
@@ -39,18 +41,21 @@ const defaultValues: Partial<SwaggerSchema> = {
 
 const BasicPartForm: React.FC = () => {
   const form = useForm<SwaggerSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(basicFormSchema),
     defaultValues,
     mode: 'onChange',
   });
 
-  const tagsArray = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     name: 'tags',
     control: form.control,
   });
 
+  const { setBasic } = useSgaggerState();
+
   const onSubmit = (values: SwaggerSchema) => {
     console.log(values);
+    setBasic(values as Basic);
   };
 
   return (
@@ -239,7 +244,7 @@ const BasicPartForm: React.FC = () => {
             Tags
           </h4>
           <div>
-            {tagsArray.fields.map((field, index) => (
+            {fields.map((field, index) => (
               <div className="flex gap-2" key={field.id}>
                 <FormField
                   control={form.control}
@@ -278,7 +283,7 @@ const BasicPartForm: React.FC = () => {
               variant="outline"
               size="sm"
               className="mt-2"
-              onClick={() => tagsArray.append({ name: '', desc: '' })}
+              onClick={() => append({ name: '', desc: '' })}
             >
               Add Tag
             </Button>
@@ -288,19 +293,21 @@ const BasicPartForm: React.FC = () => {
               size="sm"
               className="mt-2 ml-1 bg-red-300 hover:bg-red-500 hover:text-white"
               onClick={() => {
-                if (tagsArray.fields.length > 1) {
-                  tagsArray.remove(tagsArray.fields.length - 1);
+                if (fields.length > 1) {
+                  remove(fields.length - 1);
                 }
               }}
-              disabled={tagsArray.fields.length === 1}
+              disabled={fields.length === 1}
             >
               Remove Tag
             </Button>
           </div>
         </div>
-        <Button className="mt-6" type="submit">
-          Submit
-        </Button>
+        <div className="flex justify-end">
+          <Button className="mt-6" type="submit">
+            Next
+          </Button>
+        </div>
       </form>
     </Form>
   );

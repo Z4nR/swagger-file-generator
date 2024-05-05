@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const formSchema = z.object({
+export const basicFormSchema = z.object({
   swagger: z.string({ required_error: 'OpenAPI is required' }),
   title: z
     .string()
@@ -38,4 +38,17 @@ export const formSchema = z.object({
     })
   ),
   api: z.string().url({ message: 'API URL is required' }),
+});
+
+export const pathFormSchema = z.object({
+  paths: z.array(
+    z.object({
+      method: z
+        .array(z.string())
+        .refine((value) => value.some((item) => item), {
+          message: 'You have to select at least one item.',
+        }),
+      endpoint: z.string({ required_error: 'Endpoint required' }),
+    })
+  ),
 });
