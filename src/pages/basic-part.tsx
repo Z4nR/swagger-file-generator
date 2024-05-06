@@ -24,6 +24,7 @@ import { cn } from '@/lib/utils';
 import { basicFormSchema } from '@/utils/schema';
 import useSgaggerState from '@/utils/state/state';
 import { Basic } from '@/utils/state/types';
+import { Card } from '@/components/ui/card';
 
 type SwaggerSchema = z.infer<typeof basicFormSchema>;
 
@@ -61,7 +62,7 @@ const BasicPartForm: React.FC = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="space-y-4">
+        <Card className="space-y-4 p-2">
           <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
             OpenAPI Specs Version
           </h4>
@@ -302,7 +303,7 @@ const BasicPartForm: React.FC = () => {
               Remove Tag
             </Button>
           </div>
-        </div>
+        </Card>
         <div className="flex justify-end">
           <Button className="mt-6" type="submit">
             Next
