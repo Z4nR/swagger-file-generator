@@ -290,7 +290,7 @@ const PathPartForm: React.FC = () => {
                         in: '',
                         type: '',
                         description: '',
-                        required: false,
+                        required: true,
                       })
                     }
                   >
