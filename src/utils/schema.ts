@@ -41,23 +41,17 @@ export const basicFormSchema = z.object({
 });
 
 export const pathFormSchema = z.object({
-  paths: z.array(
+  method: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: 'You have to select at least one item.',
+  }),
+  endpoint: z.string({ required_error: 'Endpoint required' }),
+  parameters: z.array(
     z.object({
-      method: z
-        .array(z.string())
-        .refine((value) => value.some((item) => item), {
-          message: 'You have to select at least one item.',
-        }),
-      endpoint: z.string({ required_error: 'Endpoint required' }),
-      parameters: z.array(
-        z.object({
-          name: z.string().optional(),
-          in: z.string().optional(),
-          description: z.string().optional(),
-          required: z.boolean().optional(),
-          type: z.string().optional(),
-        })
-      ),
+      name: z.string().optional(),
+      in: z.string().optional(),
+      description: z.string().optional(),
+      required: z.boolean().optional(),
+      type: z.string().optional(),
     })
   ),
 });

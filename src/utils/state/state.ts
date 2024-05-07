@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { Basic, ClearState, Path, SchemaState } from './types';
 
-const useSgaggerState = create<Basic & Path & SchemaState & ClearState>()(
+const useSwaggerState = create<Basic & Path & SchemaState & ClearState>()(
   (set) => ({
     swagger: '',
     title: '',
@@ -49,4 +49,4 @@ const useSgaggerState = create<Basic & Path & SchemaState & ClearState>()(
   })
 );
 
-export default useSgaggerState;
+export default useSwaggerState;
