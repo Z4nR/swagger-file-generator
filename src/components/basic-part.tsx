@@ -40,7 +40,11 @@ const defaultValues: Partial<SwaggerSchema> = {
   tags: [{ name: '', desc: '' }],
 };
 
-const BasicPartForm: React.FC = () => {
+interface SetValue {
+  setInfo: React.Dispatch<React.SetStateAction<Basic | undefined>>;
+}
+
+const BasicPartForm: React.FC<SetValue> = ({ setInfo }) => {
   const form = useForm<SwaggerSchema>({
     resolver: zodResolver(basicFormSchema),
     defaultValues,
@@ -63,9 +67,6 @@ const BasicPartForm: React.FC = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
-            OpenAPI Specs Version
-          </h4>
           <Card className="space-y-6 p-2">
             <FormField
               control={form.control}
@@ -307,11 +308,6 @@ const BasicPartForm: React.FC = () => {
               </Button>
             </div>
           </Card>
-        </div>
-        <div className="flex justify-end">
-          <Button className="mt-6" type="submit">
-            Next
-          </Button>
         </div>
       </form>
     </Form>

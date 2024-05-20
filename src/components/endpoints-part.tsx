@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,30 +23,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import useSwaggerState from '@/utils/state/state';
 import { Path } from '@/utils/state/types';
 
 const items = [
-  {
-    id: 'post',
-    label: 'POST',
-  },
-  {
-    id: 'get',
-    label: 'GET',
-  },
-  {
-    id: 'update',
-    label: 'UPDATE',
-  },
-  {
-    id: 'patch',
-    label: 'PATCH',
-  },
-  {
-    id: 'delete',
-    label: 'DELETE',
-  },
+  { id: 'post', label: 'POST' },
+  { id: 'get', label: 'GET' },
+  { id: 'update', label: 'UPDATE' },
+  { id: 'patch', label: 'PATCH' },
+  { id: 'delete', label: 'DELETE' },
 ] as const;
 
 type SwaggerSchema = z.infer<typeof pathFormSchema>;
@@ -58,7 +42,7 @@ const defaultValues: Partial<SwaggerSchema> = {
 };
 
 interface SetValue {
-  setEndpoint: React.Dispatch<React.SetStateAction<Path>>;
+  setEndpoint: React.Dispatch<React.SetStateAction<Path | undefined>>;
 }
 
 const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
@@ -91,33 +75,27 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
     onReset();
   };
 
-  const { setPath } = useSwaggerState();
-
-  const onState = () => {
-    const transformedPaths = {
+  useEffect(() => {
+    const transformedPaths: Path = {
       paths: pathsData.map((path) => ({
         method: path.method,
         endpoint: path.endpoint,
         parameters: path.parameters.map((parameter) => ({
-          in: parameter.in,
-          required: parameter.required,
-          type: parameter.type,
-          description: parameter.description,
-          name: parameter.name,
+          in: parameter.in || '',
+          required: parameter.required ?? true,
+          type: parameter.type || '',
+          description: parameter.description || '',
+          name: parameter.name || '',
         })),
       })),
     };
-    setPath(transformedPaths as Path);
-    setEndpoint(transformedPaths as Path);
-  };
+    setEndpoint(transformedPaths);
+  }, [pathsData, setEndpoint]);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
-            Path & Endpoint Specs
-          </h4>
           <div className="space-y-6">
             <Card className="flex flex-col gap-2 p-2">
               <FormField
@@ -132,35 +110,33 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
                           key={item.id}
                           control={form.control}
                           name="method"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={item.id}
-                                className="flex flex-row items-start space-x-1 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(item.id)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([
-                                            ...field.value,
-                                            item.id,
-                                          ])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== item.id
-                                            )
-                                          );
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="font-normal">
-                                  {item.label}
-                                </FormLabel>
-                              </FormItem>
-                            );
-                          }}
+                          render={({ field }) => (
+                            <FormItem
+                              key={item.id}
+                              className="flex flex-row items-start space-x-1 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(item.id)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          item.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== item.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                {item.label}
+                              </FormLabel>
+                            </FormItem>
+                          )}
                         />
                       ))}
                     </div>
@@ -175,7 +151,7 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
                   <FormItem className="flex-1">
                     <FormLabel>Endpoint</FormLabel>
                     <FormControl>
-                      <Input placeholder="Add tag description" {...field} />
+                      <Input placeholder="Add endpoint" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -263,10 +239,10 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
                       name={`parameters.${parameterIndex}.description`}
                       render={({ field }) => (
                         <FormItem className="flex-1">
-                          <FormLabel>Desc</FormLabel>
+                          <FormLabel>Description</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Enter parameter name"
+                              placeholder="Enter parameter description"
                               {...field}
                             />
                           </FormControl>
@@ -306,8 +282,8 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
                   onClick={() =>
                     appendParameter({
                       name: '',
-                      in: '',
-                      type: '',
+                      in: 'query',
+                      type: 'string',
                       description: '',
                       required: true,
                     })
@@ -350,12 +326,6 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
               </div>
             </Card>
           </div>
-        </div>
-        <div className="flex justify-between">
-          <Button className="mt-6">Previous</Button>
-          <Button type="button" className="mt-6" onClick={() => onState()}>
-            Next
-          </Button>
         </div>
       </form>
     </Form>
