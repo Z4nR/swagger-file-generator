@@ -1,21 +1,23 @@
 import BasicPartForm from '@/components/basic-part';
 import PathPartForm from '@/components/endpoints-part';
 import { Button } from '@/components/ui/button';
+import { Path } from '@/utils/state/types';
 import { useState } from 'react';
-
-const steps = [
-  {
-    title: 'Basic',
-    content: <BasicPartForm />,
-  },
-  {
-    title: 'Path',
-    content: <PathPartForm />,
-  },
-];
 
 const SwaggerForm: React.FC = () => {
   const [current, setCurrent] = useState(0);
+  const [endpoint, setEndpoint] = useState<Path | null>(null);
+
+  const steps = [
+    {
+      title: 'Basic',
+      content: <BasicPartForm />,
+    },
+    {
+      title: 'Path',
+      content: <PathPartForm setEndpoint={setEndpoint} />,
+    },
+  ];
 
   const next = () => {
     setCurrent(current + 1);

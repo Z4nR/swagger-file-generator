@@ -57,7 +57,11 @@ const defaultValues: Partial<SwaggerSchema> = {
   parameters: [{ name: '', in: '', required: true, description: '', type: '' }],
 };
 
-const PathPartForm: React.FC = () => {
+interface SetValue {
+  setEndpoint: React.Dispatch<React.SetStateAction<Path>>;
+}
+
+const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
   const [pathsData, setPaths] = useState<SwaggerSchema[]>([]);
 
   const form = useForm<SwaggerSchema>({
@@ -104,6 +108,7 @@ const PathPartForm: React.FC = () => {
       })),
     };
     setPath(transformedPaths as Path);
+    setEndpoint(transformedPaths as Path);
   };
 
   return (
