@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -13,7 +11,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { pathFormSchema } from '@/utils/schema';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import {
@@ -24,6 +21,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Path } from '@/utils/state/types';
+import { PathSwaggerSchema } from '@/utils/form.helper';
 
 const items = [
   { id: 'post', label: 'POST' },
@@ -33,27 +31,13 @@ const items = [
   { id: 'delete', label: 'DELETE' },
 ] as const;
 
-type SwaggerSchema = z.infer<typeof pathFormSchema>;
-
-const defaultValues: Partial<SwaggerSchema> = {
-  method: ['post', 'get'],
-  endpoint: '',
-  parameters: [{ name: '', in: '', required: true, description: '', type: '' }],
-};
-
 interface SetValue {
+  form: UseFormReturn<PathSwaggerSchema>;
   setEndpoint: React.Dispatch<React.SetStateAction<Path | undefined>>;
 }
 
-const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
-  const [pathsData, setPaths] = useState<SwaggerSchema[]>([]);
-
-  const form = useForm<SwaggerSchema>({
-    resolver: zodResolver(pathFormSchema),
-    defaultValues,
-    mode: 'onChange',
-  });
-
+const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
+  const [pathsData, setPaths] = useState<PathSwaggerSchema[]>([]);
   const {
     fields: parameters,
     append: appendParameter,
@@ -70,7 +54,7 @@ const PathPartForm: React.FC<SetValue> = ({ setEndpoint }) => {
     form.reset();
   };
 
-  const onSubmit = (values: SwaggerSchema) => {
+  const onSubmit = (values: PathSwaggerSchema) => {
     setPaths((prevPaths) => [...prevPaths, values]);
     onReset();
   };

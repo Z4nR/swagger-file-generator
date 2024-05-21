@@ -1,49 +1,60 @@
 import BasicPartForm from '@/components/basic-part';
 import PathPartForm from '@/components/endpoints-part';
 import { Button } from '@/components/ui/button';
+import {
+  BasicSwaggerSchema,
+  PathSwaggerSchema,
+  defaultValuesBasic,
+  defaultValuesPath,
+} from '@/utils/form.helper';
+import { basicFormSchema, pathFormSchema } from '@/utils/schema';
 import useSwaggerState from '@/utils/state/state';
 import { Basic, Path } from '@/utils/state/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const SwaggerForm: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [endpoint, setEndpoint] = useState<Path>();
-  const [info, setInfo] = useState<Basic>();
+
+  const formBasic = useForm<BasicSwaggerSchema>({
+    resolver: zodResolver(basicFormSchema),
+    defaultValues: defaultValuesBasic,
+    mode: 'onChange',
+  });
+
+  const formPath = useForm<PathSwaggerSchema>({
+    resolver: zodResolver(pathFormSchema),
+    defaultValues: defaultValuesPath,
+    mode: 'onChange',
+  });
 
   const { setBasic, setPath } = useSwaggerState();
-
-  const partInfo = (values: Basic) => {
-    console.log(values);
-    setInfo(values as Basic);
-  };
 
   const steps = [
     {
       title: 'OpenAPI Version Specs',
-      content: <BasicPartForm setInfo={partInfo} />,
+      content: <BasicPartForm form={formBasic} />,
     },
     {
       title: 'Path & Endpoint Specs',
-      content: <PathPartForm setEndpoint={setEndpoint} />,
+      content: <PathPartForm form={formPath} setEndpoint={setEndpoint} />,
+    },
+    {
+      title: 'Schema Specs',
+      content: <p>Hallo</p>,
     },
   ];
 
-  const handleEndpoint = (values: Path) => {
-    setPath(values);
-  };
-
-  //console.log(info);
-
   const next = () => {
-    switch (true) {
-      case current === 1:
-        console.log('Path and Endpoint', endpoint);
-        handleEndpoint(endpoint as Path);
-        break;
-      default:
-        console.log('Basic');
-        setBasic(info as Basic);
-        break;
+    if (current === 1) {
+      console.log('Path and Endpoint', endpoint);
+      setPath(endpoint as Path);
+    } else {
+      const info = formBasic.getValues();
+      console.log('Basic', info);
+      setBasic(info as Basic);
     }
     setCurrent(current + 1);
   };
@@ -59,13 +70,13 @@ const SwaggerForm: React.FC = () => {
       </h4>
       <div>{steps[current].content}</div>
       <div>
-        {current < steps.length - 1 && (
-          <Button onClick={() => next()}>Next</Button>
-        )}
         {current > 0 && (
           <Button className="mr-2" onClick={() => prev()}>
             Previous
           </Button>
+        )}
+        {current < steps.length - 1 && (
+          <Button onClick={() => next()}>Next</Button>
         )}
         {current === steps.length - 1 && (
           <Button onClick={() => console.log('Testing')}>Done</Button>

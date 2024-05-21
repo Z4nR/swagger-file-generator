@@ -5,11 +5,11 @@ import './styles/index.css';
 import useSwaggerState from './utils/state/state';
 
 const App: React.FC = () => {
-  const stateValue = useSwaggerState(); // Replace valueOnState with the actual value you want to check
+  const { setBasic, setPath, clearState, ...value } = useSwaggerState(); // Replace valueOnState with the actual value you want to check
 
   useEffect(() => {
-    console.log('Value on state:', stateValue);
-  }, [stateValue]);
+    console.log('Value on state:', value);
+  }, [value]);
 
   return (
     <div className="w-full">

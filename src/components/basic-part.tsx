@@ -1,6 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -21,49 +19,22 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { basicFormSchema } from '@/utils/schema';
-import { Basic } from '@/utils/state/types';
 import { Card } from '@/components/ui/card';
-
-type SwaggerSchema = z.infer<typeof basicFormSchema>;
-
-const defaultValues: Partial<SwaggerSchema> = {
-  swagger: '3.0.3',
-  title: '',
-  description: '',
-  version: '0.0.0',
-  license: {
-    name: 'Apache License 2.0',
-    url: '',
-  },
-  tags: [{ name: '', desc: '' }],
-};
+import { BasicSwaggerSchema } from '@/utils/form.helper';
 
 interface SetValue {
-  setInfo: (value: Basic) => void;
+  form: UseFormReturn<BasicSwaggerSchema>;
 }
 
-const BasicPartForm: React.FC<SetValue> = ({ setInfo }) => {
-  const form = useForm<SwaggerSchema>({
-    resolver: zodResolver(basicFormSchema),
-    defaultValues,
-    mode: 'onChange',
-  });
-
+const BasicPartForm: React.FC<SetValue> = ({ form }) => {
   const { fields, append, remove } = useFieldArray({
     name: 'tags',
     control: form.control,
   });
 
-  const onSubmit = (values: SwaggerSchema) => {
-    console.log(values);
-    setInfo(values as Basic);
-    return;
-  };
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form>
         <div className="space-y-4">
           <Card className="space-y-6 p-2">
             <FormField
