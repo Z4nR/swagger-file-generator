@@ -7,13 +7,20 @@ import { useState } from 'react';
 
 const SwaggerForm: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const [info, setInfo] = useState<Basic | undefined>();
-  const [endpoint, setEndpoint] = useState<Path | undefined>();
+  const [endpoint, setEndpoint] = useState<Path>();
+  const [info, setInfo] = useState<Basic>();
+
+  const { setBasic, setPath } = useSwaggerState();
+
+  const partInfo = (values: Basic) => {
+    console.log(values);
+    setInfo(values as Basic);
+  };
 
   const steps = [
     {
       title: 'OpenAPI Version Specs',
-      content: <BasicPartForm setInfo={setInfo} />,
+      content: <BasicPartForm setInfo={partInfo} />,
     },
     {
       title: 'Path & Endpoint Specs',
@@ -21,24 +28,23 @@ const SwaggerForm: React.FC = () => {
     },
   ];
 
-  const { setBasic, setPath } = useSwaggerState();
+  const handleEndpoint = (values: Path) => {
+    setPath(values);
+  };
 
-  const handleSubmit = () => {
+  //console.log(info);
+
+  const next = () => {
     switch (true) {
       case current === 1:
         console.log('Path and Endpoint', endpoint);
-        setPath(endpoint as Path);
-        break;
-      case current === steps.length - 1:
+        handleEndpoint(endpoint as Path);
         break;
       default:
         console.log('Basic');
         setBasic(info as Basic);
         break;
     }
-  };
-
-  const next = () => {
     setCurrent(current + 1);
   };
 
@@ -52,16 +58,9 @@ const SwaggerForm: React.FC = () => {
         {steps[current].title}
       </h4>
       <div>{steps[current].content}</div>
-      <div className="mt-6">
+      <div>
         {current < steps.length - 1 && (
-          <Button
-            onClick={() => {
-              next();
-              handleSubmit();
-            }}
-          >
-            Next
-          </Button>
+          <Button onClick={() => next()}>Next</Button>
         )}
         {current > 0 && (
           <Button className="mr-2" onClick={() => prev()}>
@@ -69,7 +68,7 @@ const SwaggerForm: React.FC = () => {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button onClick={() => handleSubmit()}>Done</Button>
+          <Button onClick={() => console.log('Testing')}>Done</Button>
         )}
       </div>
     </div>

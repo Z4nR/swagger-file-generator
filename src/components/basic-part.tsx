@@ -24,7 +24,6 @@ import { cn } from '@/lib/utils';
 import { basicFormSchema } from '@/utils/schema';
 import { Basic } from '@/utils/state/types';
 import { Card } from '@/components/ui/card';
-import useSwaggerState from '@/utils/state/state';
 
 type SwaggerSchema = z.infer<typeof basicFormSchema>;
 
@@ -41,7 +40,7 @@ const defaultValues: Partial<SwaggerSchema> = {
 };
 
 interface SetValue {
-  setInfo: React.Dispatch<React.SetStateAction<Basic | undefined>>;
+  setInfo: (value: Basic) => void;
 }
 
 const BasicPartForm: React.FC<SetValue> = ({ setInfo }) => {
@@ -56,11 +55,10 @@ const BasicPartForm: React.FC<SetValue> = ({ setInfo }) => {
     control: form.control,
   });
 
-  const { setBasic } = useSwaggerState();
-
   const onSubmit = (values: SwaggerSchema) => {
     console.log(values);
-    setBasic(values as Basic);
+    setInfo(values as Basic);
+    return;
   };
 
   return (
