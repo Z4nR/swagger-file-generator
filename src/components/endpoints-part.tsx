@@ -48,9 +48,6 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
   });
 
   const onReset = () => {
-    if (parameters.length > 1) {
-      removeParameter(parameters.length - (parameters.length - 1));
-    }
     form.reset();
   };
 
@@ -124,6 +121,9 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                         />
                       ))}
                     </div>
+                    <FormDescription>
+                      Choose your HTTP Method when use the endpoint
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -137,6 +137,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                     <FormControl>
                       <Input placeholder="Add endpoint" {...field} />
                     </FormControl>
+                    <FormDescription>Set your endpoint here</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -167,7 +168,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            This is your swagger license.
+                            Select in where the parameter will use.
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -196,7 +197,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            This is your swagger license.
+                            Choose the type of parameter.
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -214,6 +215,9 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                               {...field}
                             />
                           </FormControl>
+                          <FormDescription>
+                            Add the name of parameter
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -230,6 +234,9 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                               {...field}
                             />
                           </FormControl>
+                          <FormDescription>
+                            Create simple description about parameter
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -249,7 +256,8 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                         <div className="space-y-1 leading-none">
                           <FormLabel>Is this parameter required?</FormLabel>
                           <FormDescription>
-                            This parameter is required when using this endpoint
+                            Set type of requirement parameter when using this
+                            endpoint
                           </FormDescription>
                         </div>
                       </FormItem>
@@ -281,11 +289,11 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                   size="sm"
                   className="mt-2 ml-1 bg-red-300 hover:bg-red-500 hover:text-white"
                   onClick={() => {
-                    if (parameters.length > 1) {
+                    if (parameters.length >= 1) {
                       removeParameter(parameters.length - 1);
                     }
                   }}
-                  disabled={parameters.length <= 1}
+                  disabled={parameters.length < 1}
                 >
                   Remove Param
                 </Button>

@@ -21,7 +21,7 @@ export const basicFormSchema = z.object({
   }),
   license: z.object({
     name: z.string({ required_error: 'License Name is required' }),
-    url: z.string().url({ message: 'License URL is required' }),
+    url: z.string({ required_error: 'License URL is required' }).url(),
   }),
   tags: z.array(
     z.object({
@@ -37,7 +37,7 @@ export const basicFormSchema = z.object({
         .optional(),
     })
   ),
-  api: z.string().url({ message: 'API URL is required' }),
+  api: z.string({ required_error: 'API URL is required' }).url(),
 });
 
 export const pathFormSchema = z.object({

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { Basic, ClearState, Path, SchemaState } from './types';
+import { Basic, ClearState, CombinedState, Path, SchemaState } from './types';
 
-const useSwaggerState = create<Basic & Path & SchemaState & ClearState>()(
+const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
   (set) => ({
     swagger: '',
     title: '',

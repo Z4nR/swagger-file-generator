@@ -60,7 +60,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    This is your swagger OpenAPI Specs.
+                    Choose OpenAPI Spesification Version you will use.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -80,9 +80,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    This is your swagger license url.
-                  </FormDescription>
+                  <FormDescription>Set your uRL server here.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -104,7 +102,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                       />
                     </FormControl>
                     <FormDescription>
-                      This is your swagger file title.
+                      Add your swagger documentation title.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -124,7 +122,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                       />
                     </FormControl>
                     <FormDescription>
-                      This is your swagger description.
+                      Give the description about this swagger documentation.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -143,7 +141,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                       />
                     </FormControl>
                     <FormDescription>
-                      This is your API versioning.
+                      Add versioning base on your API URL Server.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -187,7 +185,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                         </SelectContent>
                       </Select>
                       <FormDescription>
-                        This is your swagger license.
+                        Select your copyright type.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -206,7 +204,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                         />
                       </FormControl>
                       <FormDescription>
-                        This is your swagger license url.
+                        Add the copyright License URL here.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

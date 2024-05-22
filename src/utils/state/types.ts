@@ -26,6 +26,8 @@ export interface Basic {
   }[];
 }
 
+export interface CombinedState extends Basic, Path {}
+
 export interface SchemaState {
   setBasic: (state: Basic) => void;
   setPath: (state: Path) => void;

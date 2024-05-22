@@ -3,6 +3,7 @@ import { Separator } from './components/ui/separator';
 import SwaggerForm from './pages/form-pages';
 import './styles/index.css';
 import useSwaggerState from './utils/state/state';
+import { openAPI, swaggerAPI } from './utils/json.builder';
 
 const App: React.FC = () => {
   const { setBasic, setPath, clearState, ...value } = useSwaggerState(); // Replace valueOnState with the actual value you want to check
@@ -10,6 +11,14 @@ const App: React.FC = () => {
   useEffect(() => {
     console.log('Value on state:', value);
   }, [value]);
+
+  if (value.title !== '2.0.0') {
+    const data = openAPI(value);
+    console.log(data);
+  } else {
+    const data = swaggerAPI(value);
+    console.log(data);
+  }
 
   return (
     <div className="w-full">

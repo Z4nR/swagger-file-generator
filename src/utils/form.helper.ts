@@ -17,7 +17,6 @@ export const defaultValuesBasic: Partial<BasicSwaggerSchema> = {
 };
 
 export const defaultValuesPath: Partial<PathSwaggerSchema> = {
-  method: ['post', 'get'],
+  method: ['get'],
   endpoint: '',
-  parameters: [{ name: '', in: '', required: true, description: '', type: '' }],
 };

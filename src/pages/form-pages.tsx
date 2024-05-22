@@ -27,7 +27,7 @@ const SwaggerForm: React.FC = () => {
   const formPath = useForm<PathSwaggerSchema>({
     resolver: zodResolver(pathFormSchema),
     defaultValues: defaultValuesPath,
-    mode: 'onChange',
+    mode: 'onSubmit',
   });
 
   const { setBasic, setPath } = useSwaggerState();
@@ -43,7 +43,7 @@ const SwaggerForm: React.FC = () => {
     },
     {
       title: 'Schema Specs',
-      content: <p>Hallo</p>,
+      content: <p>Coming Soon</p>,
     },
   ];
 
