@@ -8,6 +8,7 @@ export interface Path {
       required: boolean;
       description: string;
       type: string;
+      example: string | number;
     }[];
   }[];
 }
@@ -24,6 +25,7 @@ export interface Basic {
     name: string;
     desc: string;
   }[];
+  api: string;
 }
 
 export interface CombinedState extends Basic, Path {}

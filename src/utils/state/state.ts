@@ -12,12 +12,20 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
       url: '',
     },
     tags: [{ name: '', desc: '' }],
+    api: '',
     paths: [
       {
         method: ['post', 'get'],
         endpoint: '',
         parameters: [
-          { name: '', in: '', required: true, description: '', type: '' },
+          {
+            name: '',
+            in: '',
+            required: true,
+            description: '',
+            type: '',
+            example: '',
+          },
         ],
       },
     ],
@@ -29,6 +37,7 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
         version: state.version,
         license: state.license,
         tags: state.tags,
+        api: state.api,
       })),
     setPath: (state: Path) =>
       set(() => ({

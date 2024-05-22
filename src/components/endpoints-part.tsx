@@ -67,6 +67,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
           type: parameter.type || '',
           description: parameter.description || '',
           name: parameter.name || '',
+          example: parameter.example || '' || 0,
         })),
       })),
     };
@@ -236,6 +237,25 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                           </FormControl>
                           <FormDescription>
                             Create simple description about parameter
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`parameters.${parameterIndex}.example`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Example</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter parameter example value"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Add some parameter example value
                           </FormDescription>
                           <FormMessage />
                         </FormItem>

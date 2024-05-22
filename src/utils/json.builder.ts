@@ -2,10 +2,23 @@ import { CombinedState } from './state/types';
 
 export const openAPI = (value: CombinedState) => {
   const paths = value.paths.map((item) => {
+    const param = item.parameters.map((param) => {
+      return {
+        name: param.name,
+        in: param.in,
+        description: param.description,
+        required: param.required,
+        schema: {
+          type: param.type,
+          example: param.example,
+        },
+      };
+    });
     const method = item.method.map((http) => {
       return {
         [http]: {
-          parameters: item.parameters,
+          description: 'Add your description here',
+          parameters: param,
         },
       };
     });
@@ -28,6 +41,11 @@ export const openAPI = (value: CombinedState) => {
         [value.title]: 'Lorem',
       },
       tags: value.tags,
+      servers: [
+        {
+          url: value.api,
+        },
+      ],
       paths: paths,
     };
   } else {
