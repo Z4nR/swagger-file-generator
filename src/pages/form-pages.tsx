@@ -1,5 +1,6 @@
-import BasicPartForm from '@/components/basic-part';
-import PathPartForm from '@/components/endpoints-part';
+import BasicPartForm from '@/pages/form-part/basic-part';
+import PathPartForm from '@/pages/form-part/endpoints-part';
+import SchemaPartForm from '@/pages/form-part/schemas-part';
 import { Button } from '@/components/ui/button';
 import {
   BasicSwaggerSchema,
@@ -38,19 +39,18 @@ const SwaggerForm: React.FC = () => {
       content: <BasicPartForm form={formBasic} />,
     },
     {
-      title: 'Path & Endpoint Specs',
-      content: <PathPartForm form={formPath} setEndpoint={setEndpoint} />,
+      title: 'Schema Specs',
+      content: <SchemaPartForm />,
     },
     {
-      title: 'Schema Specs',
-      content: <p>Coming Soon</p>,
+      title: 'Path & Endpoint Specs',
+      content: <PathPartForm form={formPath} setEndpoint={setEndpoint} />,
     },
   ];
 
   const next = () => {
     if (current === 1) {
-      console.log('Path and Endpoint', endpoint);
-      setPath(endpoint as Path);
+      console.log('Schema');
     } else {
       const info = formBasic.getValues();
       console.log('Basic', info);
@@ -79,7 +79,14 @@ const SwaggerForm: React.FC = () => {
           <Button onClick={() => next()}>Next</Button>
         )}
         {current === steps.length - 1 && (
-          <Button onClick={() => console.log('Testing')}>Done</Button>
+          <Button
+            onClick={() => {
+              console.log('Path and Endpoint', endpoint);
+              setPath(endpoint as Path);
+            }}
+          >
+            Done
+          </Button>
         )}
       </div>
     </div>

@@ -36,7 +36,10 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
     <Form {...form}>
       <form>
         <div className="space-y-4">
-          <Card className="space-y-6 p-2">
+          <Card className="space-y-4 p-2">
+            <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
+              OAS Version
+            </h4>
             <FormField
               control={form.control}
               name="swagger"
