@@ -67,7 +67,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
           type: parameter.type || '',
           description: parameter.description || '',
           name: parameter.name || '',
-          example: parameter.example || '' || 0,
+          example: parameter.example || '',
         })),
       })),
     };
@@ -194,7 +194,6 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                               <SelectItem value="string">String</SelectItem>
                               <SelectItem value="integer">Integer</SelectItem>
                               <SelectItem value="boolean">Boolean</SelectItem>
-                              <SelectItem value="array">Array</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormDescription>

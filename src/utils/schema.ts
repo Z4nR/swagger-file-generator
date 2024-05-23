@@ -52,7 +52,7 @@ export const pathFormSchema = z.object({
       description: z.string().optional(),
       required: z.boolean().optional(),
       type: z.string().optional(),
-      example: z.string().or(z.number()).optional(),
+      example: z.string().optional(),
     })
   ),
 });

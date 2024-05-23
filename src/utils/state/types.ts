@@ -8,7 +8,7 @@ export interface Path {
       required: boolean;
       description: string;
       type: string;
-      example: string | number;
+      example: string;
     }[];
   }[];
 }
