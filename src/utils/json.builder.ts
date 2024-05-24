@@ -1,6 +1,6 @@
 import { CombinedState } from './state/types';
 
-const validateExample = (
+const validateExampleParam = (
   type: string,
   example: string
 ): string | number | boolean => {
@@ -40,10 +40,50 @@ const validateExample = (
   return exampleData;
 };
 
+const validateExampleProp = (
+  type: string,
+  example: string
+): string | number | boolean => {
+  let exampleData: string | number | boolean;
+  const regexInt = /^\d+$/;
+
+  switch (true) {
+    case type === 'integer' || (type === 'number' && regexInt.test(example)):
+      exampleData = parseInt(example, 10);
+      break;
+
+    case type === 'integer' || (type === 'number' && !regexInt.test(example)):
+      exampleData = 'Example is unmatched the type';
+      break;
+
+    case type === 'boolean' && example === 'true':
+      exampleData = true;
+      break;
+
+    case type === 'boolean' && example === 'false':
+      exampleData = false;
+      break;
+
+    case type === 'boolean':
+      exampleData = 'Example is unmatched the type';
+      break;
+
+    case type === 'string':
+      exampleData = example;
+      break;
+
+    default:
+      exampleData = 'Type is unknown';
+      break;
+  }
+
+  return exampleData;
+};
+
 export const openAPI = (value: CombinedState) => {
   const paths = value.paths.map((item) => {
     const param = item.parameters.map((param) => {
-      const exampleData = validateExample(param.type, param.example);
+      const exampleData = validateExampleParam(param.type, param.example);
 
       return {
         name: param.name,
@@ -74,6 +114,27 @@ export const openAPI = (value: CombinedState) => {
   });
   console.log(paths);
 
+  const schema = value.schema.map((item) => {
+    const prop = item.properties.map((prop) => {
+      const exampleData = validateExampleProp(prop.type, prop.example);
+
+      return {
+        name: prop.name,
+        type: prop.type,
+        example: exampleData,
+      };
+    });
+
+    return {
+      [item.name]: {
+        type: 'object',
+        properties: {
+          ...prop,
+        },
+      },
+    };
+  });
+
   if (value.title !== '2.0.0') {
     return {
       openapi: value.swagger,
@@ -90,6 +151,11 @@ export const openAPI = (value: CombinedState) => {
       ],
       tags: value.tags,
       paths: paths,
+      components: {
+        schemas: {
+          ...schema,
+        },
+      },
     };
   } else {
     return {

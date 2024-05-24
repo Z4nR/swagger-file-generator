@@ -5,12 +5,18 @@ import { Button } from '@/components/ui/button';
 import {
   BasicSwaggerSchema,
   PathSwaggerSchema,
+  SchemaSwaggerSchema,
+  defaultValueSchema,
   defaultValuesBasic,
   defaultValuesPath,
 } from '@/utils/form.helper';
-import { basicFormSchema, pathFormSchema } from '@/utils/schema';
+import {
+  basicFormSchema,
+  pathFormSchema,
+  schemaFormSchema,
+} from '@/utils/schema';
 import useSwaggerState from '@/utils/state/state';
-import { Basic, Path } from '@/utils/state/types';
+import { Basic, Path, Schema } from '@/utils/state/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,10 +24,17 @@ import { useForm } from 'react-hook-form';
 const SwaggerForm: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [endpoint, setEndpoint] = useState<Path>();
+  const [schema, setSchemas] = useState<Schema>();
 
   const formBasic = useForm<BasicSwaggerSchema>({
     resolver: zodResolver(basicFormSchema),
     defaultValues: defaultValuesBasic,
+    mode: 'onChange',
+  });
+
+  const formSchema = useForm<SchemaSwaggerSchema>({
+    resolver: zodResolver(schemaFormSchema),
+    defaultValues: defaultValueSchema,
     mode: 'onChange',
   });
 
@@ -31,7 +44,7 @@ const SwaggerForm: React.FC = () => {
     mode: 'onSubmit',
   });
 
-  const { setBasic, setPath } = useSwaggerState();
+  const { setBasic, setSchema, setPath } = useSwaggerState();
 
   const steps = [
     {
@@ -39,8 +52,8 @@ const SwaggerForm: React.FC = () => {
       content: <BasicPartForm form={formBasic} />,
     },
     {
-      title: 'Schema Specs',
-      content: <SchemaPartForm />,
+      title: 'Schema Data Specs',
+      content: <SchemaPartForm form={formSchema} setSchema={setSchemas} />,
     },
     {
       title: 'Path & Endpoint Specs',
@@ -48,9 +61,15 @@ const SwaggerForm: React.FC = () => {
     },
   ];
 
+  const done = () => {
+    console.log('Path and Endpoint', endpoint);
+    setPath(endpoint as Path);
+  };
+
   const next = () => {
     if (current === 1) {
-      console.log('Schema');
+      console.log('Schema', schema);
+      setSchema(schema as Schema);
     } else {
       const info = formBasic.getValues();
       console.log('Basic', info);
@@ -79,14 +98,7 @@ const SwaggerForm: React.FC = () => {
           <Button onClick={() => next()}>Next</Button>
         )}
         {current === steps.length - 1 && (
-          <Button
-            onClick={() => {
-              console.log('Path and Endpoint', endpoint);
-              setPath(endpoint as Path);
-            }}
-          >
-            Done
-          </Button>
+          <Button onClick={() => done()}>Done</Button>
         )}
       </div>
     </div>

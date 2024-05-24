@@ -40,6 +40,17 @@ export const basicFormSchema = z.object({
   api: z.string({ required_error: 'API URL is required' }).url(),
 });
 
+export const schemaFormSchema = z.object({
+  name: z.string({ required_error: 'Schema Name required' }),
+  properties: z.array(
+    z.object({
+      name: z.string({ required_error: 'Properties Name required' }),
+      type: z.string({ required_error: 'Type required' }),
+      example: z.string().optional(),
+    })
+  ),
+});
+
 export const pathFormSchema = z.object({
   method: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: 'You have to select at least one item.',

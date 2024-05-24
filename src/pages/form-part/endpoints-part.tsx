@@ -78,13 +78,15 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          <Card className="flex flex-col gap-2 p-2">
+          <Card className="flex flex-col gap-2 space-y-4 p-2">
+            <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
+              HTTP Method
+            </h4>
             <FormField
               control={form.control}
               name="method"
               render={() => (
                 <FormItem>
-                  <FormLabel>HTTP Method</FormLabel>
                   <div className="flex flex-row gap-4">
                     {items.map((item) => (
                       <FormField
@@ -125,12 +127,14 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                 </FormItem>
               )}
             />
+            <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
+              Endpoint
+            </h4>
             <FormField
               control={form.control}
               name="endpoint"
               render={({ field }) => (
                 <FormItem className="flex-1">
-                  <FormLabel>Endpoint</FormLabel>
                   <FormControl>
                     <Input placeholder="Add endpoint" {...field} />
                   </FormControl>
@@ -139,9 +143,11 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                 </FormItem>
               )}
             />
-            <FormLabel>Parameter</FormLabel>
+            <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
+              Parameter
+            </h4>
             {parameters.map((_, parameterIndex) => (
-              <Card className="p-2" key={parameterIndex}>
+              <Card className="px-2" key={parameterIndex}>
                 <div className="gap-2 grid grid-cols-2">
                   <FormField
                     control={form.control}

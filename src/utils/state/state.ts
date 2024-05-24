@@ -1,5 +1,12 @@
 import { create } from 'zustand';
-import { Basic, ClearState, CombinedState, Path, SchemaState } from './types';
+import {
+  Basic,
+  ClearState,
+  CombinedState,
+  Path,
+  Schema,
+  SchemaState,
+} from './types';
 
 const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
   (set) => ({
@@ -13,6 +20,18 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
     },
     tags: [{ name: '', desc: '' }],
     api: '',
+    schema: [
+      {
+        name: '',
+        properties: [
+          {
+            name: '',
+            type: '',
+            example: '',
+          },
+        ],
+      },
+    ],
     paths: [
       {
         method: ['post', 'get'],
@@ -39,6 +58,10 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
         tags: state.tags,
         api: state.api,
       })),
+    setSchema: (state: Schema) =>
+      set(() => ({
+        schema: state.schema,
+      })),
     setPath: (state: Path) =>
       set(() => ({
         paths: state.paths,
@@ -54,6 +77,35 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
           url: '',
         },
         tags: [{ name: '', desc: '' }],
+        api: '',
+        schema: [
+          {
+            name: '',
+            properties: [
+              {
+                name: '',
+                type: '',
+                example: '',
+              },
+            ],
+          },
+        ],
+        paths: [
+          {
+            method: ['post', 'get'],
+            endpoint: '',
+            parameters: [
+              {
+                name: '',
+                in: '',
+                required: true,
+                description: '',
+                type: '',
+                example: '',
+              },
+            ],
+          },
+        ],
       })),
   })
 );
