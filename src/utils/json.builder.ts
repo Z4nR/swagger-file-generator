@@ -135,7 +135,7 @@ export const openAPI = (value: CombinedState) => {
     };
   });
 
-  if (value.title !== '2.0.0') {
+  if (value.swagger !== '2.0.0') {
     return {
       openapi: value.swagger,
       info: {
