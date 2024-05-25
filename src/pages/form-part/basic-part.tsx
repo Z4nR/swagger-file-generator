@@ -55,7 +55,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="2.0.0">2.0.0</SelectItem>
+                      <SelectItem value="2.0">2.0</SelectItem>
                       <SelectItem value="3.0.1">3.0.1</SelectItem>
                       <SelectItem value="3.0.2">3.0.2</SelectItem>
                       <SelectItem value="3.0.3">3.0.3</SelectItem>

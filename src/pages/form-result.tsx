@@ -2,17 +2,12 @@ import { openAPI } from '@/utils/json.builder';
 import useSwaggerState from '@/utils/state/state';
 import { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
+import SwaggerUI from 'swagger-ui-react';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 const SwaggerResult: React.FC = () => {
   const { setBasic, setSchema, setPath, clearState, ...value } =
@@ -25,7 +20,7 @@ const SwaggerResult: React.FC = () => {
   const data = openAPI(value);
   console.log(data);
 
-  const jsonData = JSON.stringify(data);
+  const jsonData = JSON.stringify(data, null, 2);
   console.log(jsonData);
 
   return (
@@ -41,7 +36,7 @@ const SwaggerResult: React.FC = () => {
               className="pt-6"
               value={jsonData}
               height="450px"
-              maxWidth="650px"
+              minWidth="650px"
               theme={'dark'}
               basicSetup
               autoFocus
@@ -56,9 +51,9 @@ const SwaggerResult: React.FC = () => {
       </TabsContent>
       <TabsContent value="swagger">
         <Card>
-          <CardHeader>
-            <CardTitle>Coming Soon</CardTitle>
-          </CardHeader>
+          <CardContent>
+            <SwaggerUI spec={data} />
+          </CardContent>
         </Card>
       </TabsContent>
     </Tabs>

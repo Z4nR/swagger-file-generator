@@ -80,6 +80,7 @@
   box-sizing: border-box;
 }
 
-body {
+body,
+html {
   min-height: 100vh;
 }
