@@ -24,7 +24,7 @@ const SwaggerResult: React.FC = () => {
   console.log(jsonData);
 
   return (
-    <Tabs defaultValue="code" className="w-fit p-4">
+    <Tabs defaultValue="code" className="w-full p-4">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="code">JSON Result</TabsTrigger>
         <TabsTrigger value="swagger">Swagger View</TabsTrigger>
@@ -36,7 +36,6 @@ const SwaggerResult: React.FC = () => {
               className="pt-6"
               value={jsonData}
               height="450px"
-              minWidth="650px"
               theme={'dark'}
               basicSetup
               autoFocus
