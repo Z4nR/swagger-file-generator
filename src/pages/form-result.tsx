@@ -1,8 +1,9 @@
 import { openAPI } from '@/utils/json.builder';
 import useSwaggerState from '@/utils/state/state';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,18 +11,38 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 const SwaggerResult: React.FC = () => {
+  const [jsonString, setJsonString] = useState(`
+  {"openapi": "3.0.3",
+  "info": {
+    "title": "Lorem Ipsum",
+    "description": "Lorem Ipsum",
+    "license": {
+      "name": "Apache License 2.0",
+      "url": "https://apache"
+    },
+    "version": "0.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://url"
+    }
+  ]}
+  `);
+  const onChange = useCallback((val: string) => {
+    console.log('val:', val);
+    setJsonString(val);
+  }, []);
+
   const { setBasic, setSchema, setPath, clearState, ...value } =
     useSwaggerState();
+  const data = openAPI(value);
 
   useEffect(() => {
-    console.log('Value on state:', value);
-  }, [value]);
+    console.log('Value on state:', data);
+  }, [data]);
 
-  const data = openAPI(value);
-  console.log(data);
-
-  const jsonData = JSON.stringify(data, null, 2);
-  console.log(jsonData);
+  const jsonToString = JSON.stringify(data, null, 2);
+  const jsonParse = JSON.parse(jsonString);
 
   return (
     <Tabs defaultValue="code" className="w-full p-4">
@@ -34,13 +55,14 @@ const SwaggerResult: React.FC = () => {
           <CardContent className="space-y-2">
             <CodeMirror
               className="pt-6"
-              value={jsonData}
+              value={jsonToString}
               height="450px"
               theme={'dark'}
               basicSetup
               autoFocus
               editable
               extensions={[json(), linter(jsonParseLinter())]}
+              onChange={onChange}
             />
           </CardContent>
           <CardFooter>
@@ -51,7 +73,7 @@ const SwaggerResult: React.FC = () => {
       <TabsContent value="swagger">
         <Card>
           <CardContent>
-            <SwaggerUI spec={data} />
+            <SwaggerUI spec={jsonParse} />
           </CardContent>
         </Card>
       </TabsContent>
