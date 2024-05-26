@@ -2,6 +2,7 @@ export interface Path {
   paths: {
     method: string[];
     endpoint: string;
+    tags: string;
     parameters: {
       name: string;
       in: string;

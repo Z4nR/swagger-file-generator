@@ -36,6 +36,7 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
       {
         method: ['post', 'get'],
         endpoint: '',
+        tags: '',
         parameters: [
           {
             name: '',
@@ -94,6 +95,7 @@ const useSwaggerState = create<CombinedState & SchemaState & ClearState>()(
           {
             method: ['post', 'get'],
             endpoint: '',
+            tags: '',
             parameters: [
               {
                 name: '',

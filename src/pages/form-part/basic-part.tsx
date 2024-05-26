@@ -199,15 +199,45 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                   name={`license.url`}
                   render={({ field }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>License URL</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Please insert your license url"
-                          {...field}
-                        />
-                      </FormControl>
+                      <FormLabel>OpenAPI License</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a OpenAPI License URL" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="https://www.gnu.org/licenses/agpl-3.0.txt">
+                            GNU AGPLv3
+                          </SelectItem>
+                          <SelectItem value="https://www.gnu.org/licenses/gpl-3.0-standalone.html">
+                            GNU GPLv3
+                          </SelectItem>
+                          <SelectItem value="https://www.gnu.org/licenses/lgpl-3.0-standalone.html">
+                            GNU LGPLv3
+                          </SelectItem>
+                          <SelectItem value="https://www.mozilla.org/en-US/MPL/2.0/">
+                            Mozilla Public License 2.0
+                          </SelectItem>
+                          <SelectItem value="https://www.apache.org/licenses/LICENSE-2.0">
+                            Apache License 2.0
+                          </SelectItem>
+                          <SelectItem value="https://opensource.org/license/mit">
+                            MIT License
+                          </SelectItem>
+                          <SelectItem value="https://www.boost.org/LICENSE_1_0.txt">
+                            Boost Software License 1.0
+                          </SelectItem>
+                          <SelectItem value="https://unlicense.org/">
+                            The Unlicense
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormDescription>
-                        Add the copyright License URL here.
+                        Select your copyright type.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

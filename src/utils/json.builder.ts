@@ -100,6 +100,7 @@ export const openAPI = (value: CombinedState) => {
     const method = item.method.map((http) => {
       return {
         [http]: {
+          tags: [item.tags],
           description: 'Add your description here',
           parameters: param,
         },
@@ -169,6 +170,11 @@ export const openAPI = (value: CombinedState) => {
       host: value.api,
       tags: value.tags,
       paths: paths,
+      components: {
+        schemas: {
+          ...schema,
+        },
+      },
     };
   }
 };

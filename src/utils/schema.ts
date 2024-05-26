@@ -56,6 +56,7 @@ export const pathFormSchema = z.object({
     message: 'You have to select at least one item.',
   }),
   endpoint: z.string({ required_error: 'Endpoint required' }),
+  tags: z.string({ required_error: 'Tags required' }),
   parameters: z.array(
     z.object({
       name: z.string().optional(),

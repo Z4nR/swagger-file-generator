@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/select';
 import { Path } from '@/utils/state/types';
 import { PathSwaggerSchema } from '@/utils/form.helper';
+import useSwaggerState from '@/utils/state/state';
 
 const items = [
   { id: 'post', label: 'POST' },
@@ -37,6 +38,7 @@ interface SetValue {
 }
 
 const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
+  const { tags } = useSwaggerState();
   const [pathsData, setPaths] = useState<PathSwaggerSchema[]>([]);
   const {
     fields: parameters,
@@ -61,6 +63,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
       paths: pathsData.map((path) => ({
         method: path.method,
         endpoint: path.endpoint,
+        tags: path.tags,
         parameters: path.parameters.map((parameter) => ({
           in: parameter.in || '',
           required: parameter.required ?? true,
@@ -139,6 +142,37 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                     <Input placeholder="Add endpoint" {...field} />
                   </FormControl>
                   <FormDescription>Set your endpoint here</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
+              Endpoint
+            </h4>
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Tags</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a tags" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {tags.map((tag) => (
+                        <SelectItem value={tag.name}>{tag.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Choose the tags for the endpoint.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

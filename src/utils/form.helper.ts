@@ -10,7 +10,7 @@ export const defaultValuesBasic: Partial<BasicSwaggerSchema> = {
   description: '',
   version: '0.0.0',
   license: {
-    name: 'Apache License 2.0',
+    name: '',
     url: '',
   },
   tags: [{ name: '', desc: '' }],
@@ -29,4 +29,5 @@ export const defaultValueSchema: Partial<SchemaSwaggerSchema> = {
 export const defaultValuesPath: Partial<PathSwaggerSchema> = {
   method: ['get'],
   endpoint: '',
+  tags: 'Lorem',
 };
