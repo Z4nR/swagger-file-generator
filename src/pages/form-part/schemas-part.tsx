@@ -199,7 +199,12 @@ const SchemaPartForm: React.FC<SetValue> = ({ form, setSchema }) => {
                 >
                   Reset Data
                 </Button>
-                <Button variant="outline" size="sm" type="submit">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  type="submit"
+                  disabled={!form.formState.isValid}
+                >
                   Save Schema
                 </Button>
               </div>
