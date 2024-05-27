@@ -44,11 +44,11 @@ export const schemaFormSchema = z.object({
   name: z.string({ required_error: 'Schema Name required' }),
   properties: z.array(
     z.object({
-      name: z.string({ required_error: 'Properties Name required' }),
-      type: z.string({ required_error: 'Type required' }),
+      name: z.string().min(1, { message: 'Properties Name required' }),
+      type: z.string().min(1, { message: 'Type required' }),
       example: z.string().optional(),
     })
-  ),
+  ).min(1),
 });
 
 export const pathFormSchema = z.object({
