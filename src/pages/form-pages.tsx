@@ -15,7 +15,7 @@ import {
   pathFormSchema,
   schemaFormSchema,
 } from '@/utils/schema';
-import useSwaggerState from '@/utils/state/state';
+import { useSwaggerState } from '@/utils/state/state';
 import { Basic, Path, Schema } from '@/utils/state/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';

@@ -120,9 +120,10 @@ export const openAPI = (value: CombinedState) => {
       const exampleData = validateExampleProp(prop.type, prop.example);
 
       return {
-        name: prop.name,
-        type: prop.type,
-        example: exampleData,
+        [prop.name]: {
+          type: prop.type,
+          example: exampleData,
+        },
       };
     });
 
@@ -151,7 +152,7 @@ export const openAPI = (value: CombinedState) => {
         },
       ],
       tags: value.tags,
-      paths: paths,
+      paths: { ...paths },
       components: {
         schemas: {
           ...schema,

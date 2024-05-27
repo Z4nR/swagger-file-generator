@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/select';
 import { Path } from '@/utils/state/types';
 import { PathSwaggerSchema } from '@/utils/form.helper';
-import useSwaggerState from '@/utils/state/state';
+import { useSwaggerState } from '@/utils/state/state';
 
 const items = [
   { id: 'post', label: 'POST' },

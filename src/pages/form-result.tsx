@@ -7,44 +7,34 @@ import { Card, CardContent } from '@/components/ui/card';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
 import { openAPI } from '@/utils/json.builder';
-import useSwaggerState from '@/utils/state/state';
+import { useSwaggerState } from '@/utils/state/state';
 
 const SwaggerResult: React.FC = () => {
-  const [jsonString, setJsonString] = useState(`
-  {
-    "openapi": "3.0.3",
-    "info": {
-      "title": "Lorem Ipsum",
-      "description": "Lorem Ipsum",
-      "license": {
-        "name": "Apache License 2.0",
-        "url": "https://apache"
-      },
-      "version": "0.0.0"
-    },
-    "servers": [
-      {
-        "url": "https://url"
-      }
-    ]
-  }
-  `);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { setBasic, setSchema, setPath, clearState, ...value } =
+    useSwaggerState();
+  const data = openAPI(value);
+  const initialJsonString = JSON.stringify(data, null, 2);
+  console.log(initialJsonString);
+
+  const [jsonString, setJsonString] = useState(initialJsonString);
+
+  useEffect(() => {
+    setJsonString(initialJsonString);
+  }, [initialJsonString]);
+
   const onChange = useCallback((val: string) => {
     console.log('val:', val);
     setJsonString(val);
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { setBasic, setSchema, setPath, clearState, ...value } =
-    useSwaggerState();
-  const data = openAPI(value);
-
-  useEffect(() => {
-    console.log('Value on state:', value);
-  }, [value]);
-
-  const jsonToString = JSON.stringify(data, null, 2);
-  const jsonParse = JSON.parse(jsonString);
+  let jsonParse;
+  try {
+    jsonParse = JSON.parse(jsonString);
+  } catch (e) {
+    console.error('Invalid JSON:', e);
+    jsonParse = {};
+  }
 
   return (
     <Tabs defaultValue="code" className="w-full p-4">
@@ -57,7 +47,7 @@ const SwaggerResult: React.FC = () => {
           <CardContent className="space-y-2">
             <CodeMirror
               className="pt-6"
-              value={jsonToString}
+              value={jsonString}
               height="450px"
               theme={'dark'}
               basicSetup
