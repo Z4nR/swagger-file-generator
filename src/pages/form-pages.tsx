@@ -108,7 +108,11 @@ const SwaggerForm: React.FC = () => {
         {current === steps.length - 1 && (
           <Button
             onClick={() => done()}
-            disabled={!steps[current].content.props.form.formState.isValid}
+            disabled={
+              !formPath.formState.isValid ||
+              !endpoint ||
+              endpoint.paths.length === 0
+            }
           >
             Done
           </Button>
