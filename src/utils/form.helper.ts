@@ -1,9 +1,15 @@
 import { z } from 'zod';
-import { basicFormSchema, pathFormSchema, schemaFormSchema } from './schema';
+import {
+  basicFormSchema,
+  pathFormSchema,
+  reqBodySchema,
+  schemaFormSchema,
+} from './schema';
 
 export type BasicSwaggerSchema = z.infer<typeof basicFormSchema>;
 export type SchemaSwaggerSchema = z.infer<typeof schemaFormSchema>;
 export type PathSwaggerSchema = z.infer<typeof pathFormSchema>;
+export type ReqSwaggerSchema = z.infer<typeof reqBodySchema>;
 
 export const defaultValuesBasic: Partial<BasicSwaggerSchema> = {
   swagger: '3.0.3',
@@ -30,4 +36,9 @@ export const defaultValuesPath: Partial<PathSwaggerSchema> = {
   method: ['get'],
   endpoint: '',
   tags: 'Lorem',
+};
+
+export const defaultValueReq: Partial<ReqSwaggerSchema> = {
+  endpoint: '',
+  ref: '',
 };

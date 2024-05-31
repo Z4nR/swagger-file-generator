@@ -27,7 +27,7 @@ import { useSwaggerState } from '@/utils/state/state';
 const items = [
   { id: 'post', label: 'POST' },
   { id: 'get', label: 'GET' },
-  { id: 'update', label: 'UPDATE' },
+  { id: 'put', label: 'PUT' },
   { id: 'patch', label: 'PATCH' },
   { id: 'delete', label: 'DELETE' },
 ] as const;
@@ -147,14 +147,13 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
               )}
             />
             <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
-              Endpoint
+              Tags
             </h4>
             <FormField
               control={form.control}
               name="tags"
               render={({ field }) => (
                 <FormItem className="flex-1">
-                  <FormLabel>Tags</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -165,8 +164,10 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {tags.map((tag) => (
-                        <SelectItem value={tag.name}>{tag.name}</SelectItem>
+                      {tags.map((tag, index) => (
+                        <SelectItem key={index} value={tag.name}>
+                          {tag.name}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>

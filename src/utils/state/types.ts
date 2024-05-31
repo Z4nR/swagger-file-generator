@@ -1,3 +1,10 @@
+export interface Req {
+  body: {
+    endpoint: string;
+    ref: string;
+  }[];
+}
+
 export interface Path {
   paths: {
     method: string[];
@@ -40,12 +47,13 @@ export interface Basic {
   api: string;
 }
 
-export interface CombinedState extends Basic, Schema, Path {}
+export interface CombinedState extends Basic, Schema, Path, Req {}
 
 export interface SchemaState {
   setBasic: (state: Basic) => void;
   setSchema: (state: Schema) => void;
   setPath: (state: Path) => void;
+  setReq: (state: Req) => void;
 }
 
 export interface ClearState {

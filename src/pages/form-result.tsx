@@ -11,7 +11,7 @@ import { useSwaggerState } from '@/utils/state/state';
 
 const SwaggerResult: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { setBasic, setSchema, setPath, clearState, ...value } =
+  const { setBasic, setSchema, setPath, setReq, clearState, ...value } =
     useSwaggerState();
   const data = openAPI(value);
   const initialJsonString = JSON.stringify(data, null, 2);

@@ -4,6 +4,7 @@ import {
   ClearState,
   CombinedState,
   Path,
+  Req,
   Schema,
   SchemaState,
 } from './types';
@@ -50,6 +51,12 @@ export const useSwaggerState = create<
       ],
     },
   ],
+  body: [
+    {
+      endpoint: '',
+      ref: '',
+    },
+  ],
   setBasic: (state: Basic) =>
     set(() => ({
       swagger: state.swagger,
@@ -67,6 +74,10 @@ export const useSwaggerState = create<
   setPath: (state: Path) =>
     set(() => ({
       paths: state.paths,
+    })),
+  setReq: (state: Req) =>
+    set(() => ({
+      body: state.body,
     })),
   clearState: () =>
     set(() => ({

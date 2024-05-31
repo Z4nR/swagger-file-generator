@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button';
 import {
   BasicSwaggerSchema,
   PathSwaggerSchema,
+  ReqSwaggerSchema,
   SchemaSwaggerSchema,
+  defaultValueReq,
   defaultValueSchema,
   defaultValuesBasic,
   defaultValuesPath,
@@ -13,18 +15,21 @@ import {
 import {
   basicFormSchema,
   pathFormSchema,
+  reqBodySchema,
   schemaFormSchema,
 } from '@/utils/schema';
 import { useSwaggerState } from '@/utils/state/state';
-import { Basic, Path, Schema } from '@/utils/state/types';
+import { Basic, Path, Req, Schema } from '@/utils/state/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import RequestPartForm from './form-part/request-part';
 
 const SwaggerForm: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [endpoint, setEndpoint] = useState<Path>();
   const [schema, setSchemas] = useState<Schema>();
+  const [req, setReqBody] = useState<Req>();
 
   const formBasic = useForm<BasicSwaggerSchema>({
     resolver: zodResolver(basicFormSchema),
@@ -41,10 +46,16 @@ const SwaggerForm: React.FC = () => {
   const formPath = useForm<PathSwaggerSchema>({
     resolver: zodResolver(pathFormSchema),
     defaultValues: defaultValuesPath,
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
 
-  const { setBasic, setSchema, setPath } = useSwaggerState();
+  const formReq = useForm<ReqSwaggerSchema>({
+    resolver: zodResolver(reqBodySchema),
+    defaultValues: defaultValueReq,
+    mode: 'onChange',
+  });
+
+  const { setBasic, setSchema, setPath, setReq } = useSwaggerState();
 
   const steps = [
     {
@@ -59,15 +70,22 @@ const SwaggerForm: React.FC = () => {
       title: 'Path & Endpoint Specs',
       content: <PathPartForm form={formPath} setEndpoint={setEndpoint} />,
     },
+    {
+      title: 'Request & Response Specs',
+      content: <RequestPartForm form={formReq} setReq={setReqBody} />,
+    },
   ];
 
   const done = () => {
-    console.log('Path and Endpoint', endpoint);
-    setPath(endpoint as Path);
+    console.log('Res and Req');
+    setReq(req as Req);
   };
 
   const next = () => {
-    if (current === 1) {
+    if (current === 2) {
+      console.log('Path and Endpoint', endpoint);
+      setPath(endpoint as Path);
+    } else if (current === 1) {
       console.log('Schema', schema);
       setSchema(schema as Schema);
     } else {
@@ -99,7 +117,8 @@ const SwaggerForm: React.FC = () => {
             onClick={() => next()}
             disabled={
               (current === 0 && !formBasic.formState.isValid) ||
-              (current === 1 && (!schema || schema.schema.length === 0))
+              (current === 1 && (!schema || schema.schema.length === 0)) ||
+              (current === 2 && (!endpoint || endpoint.paths.length === 0))
             }
           >
             Next
@@ -109,9 +128,7 @@ const SwaggerForm: React.FC = () => {
           <Button
             onClick={() => done()}
             disabled={
-              !formPath.formState.isValid ||
-              !endpoint ||
-              endpoint.paths.length === 0
+              !formReq.formState.isValid || !req || req.body.length === 0
             }
           >
             Done

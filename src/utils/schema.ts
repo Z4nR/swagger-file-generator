@@ -42,13 +42,15 @@ export const basicFormSchema = z.object({
 
 export const schemaFormSchema = z.object({
   name: z.string({ required_error: 'Schema Name required' }),
-  properties: z.array(
-    z.object({
-      name: z.string().min(1, { message: 'Properties Name required' }),
-      type: z.string().min(1, { message: 'Type required' }),
-      example: z.string().optional(),
-    })
-  ).min(1),
+  properties: z
+    .array(
+      z.object({
+        name: z.string().min(1, { message: 'Properties Name required' }),
+        type: z.string().min(1, { message: 'Type required' }),
+        example: z.string().optional(),
+      })
+    )
+    .min(1),
 });
 
 export const pathFormSchema = z.object({
@@ -67,4 +69,9 @@ export const pathFormSchema = z.object({
       example: z.string().optional(),
     })
   ),
+});
+
+export const reqBodySchema = z.object({
+  endpoint: z.string({ required_error: 'Endpoint required' }),
+  ref: z.string({ required_error: 'Refference Schema required' }),
 });
