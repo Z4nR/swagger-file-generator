@@ -1,35 +1,38 @@
 import BasicPartForm from '@/pages/form-part/basic-part';
 import PathPartForm from '@/pages/form-part/endpoints-part';
 import SchemaPartForm from '@/pages/form-part/schemas-part';
+import RequestPartForm from './form-part/request-response-part';
 import { Button } from '@/components/ui/button';
 import {
   BasicSwaggerSchema,
   PathSwaggerSchema,
   ReqSwaggerSchema,
+  ResSwaggerSchema,
   SchemaSwaggerSchema,
   defaultValueReq,
   defaultValueSchema,
   defaultValuesBasic,
   defaultValuesPath,
-} from '@/utils/form.helper';
+} from '@/utils/form/form.helper';
 import {
   basicFormSchema,
   pathFormSchema,
   reqBodySchema,
+  responseSchema,
   schemaFormSchema,
-} from '@/utils/schema';
+} from '@/utils/form/schema';
 import { useSwaggerState } from '@/utils/state/state';
-import { Basic, Path, Req, Schema } from '@/utils/state/types';
+import { Basic, Path, Req, Res, Schema } from '@/utils/state/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import RequestPartForm from './form-part/request-part';
 
 const SwaggerForm: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [endpoint, setEndpoint] = useState<Path>();
   const [schema, setSchemas] = useState<Schema>();
   const [req, setReqBody] = useState<Req>();
+  const [res, setResponse] = useState<Res>();
 
   const formBasic = useForm<BasicSwaggerSchema>({
     resolver: zodResolver(basicFormSchema),
@@ -55,7 +58,13 @@ const SwaggerForm: React.FC = () => {
     mode: 'onChange',
   });
 
-  const { setBasic, setSchema, setPath, setReq } = useSwaggerState();
+  const formRes = useForm<ResSwaggerSchema>({
+    resolver: zodResolver(responseSchema),
+    defaultValues: defaultValueReq,
+    mode: 'onChange',
+  });
+
+  const { setBasic, setSchema, setPath, setReq, setRes } = useSwaggerState();
 
   const steps = [
     {
@@ -71,28 +80,45 @@ const SwaggerForm: React.FC = () => {
       content: <PathPartForm form={formPath} setEndpoint={setEndpoint} />,
     },
     {
-      title: 'Request & Response Specs',
-      content: <RequestPartForm form={formReq} setReq={setReqBody} />,
+      title: 'Request Specs',
+      content: (
+        <RequestPartForm
+          formReq={formReq}
+          setReq={setReqBody}
+          formRes={formRes}
+          setRes={setResponse}
+        />
+      ),
     },
   ];
 
   const done = () => {
-    console.log('Res and Req');
+    console.log('Request', req);
     setReq(req as Req);
+    console.log('Response', res);
+    setRes(res as Res);
   };
 
   const next = () => {
-    if (current === 2) {
-      console.log('Path and Endpoint', endpoint);
-      setPath(endpoint as Path);
-    } else if (current === 1) {
-      console.log('Schema', schema);
-      setSchema(schema as Schema);
-    } else {
-      const info = formBasic.getValues();
-      console.log('Basic', info);
-      setBasic(info as Basic);
+    switch (current) {
+      case 1: {
+        console.log('Schema', schema);
+        setSchema(schema as Schema);
+        break;
+      }
+      case 2: {
+        console.log('Path and Endpoint', endpoint);
+        setPath(endpoint as Path);
+        break;
+      }
+      default: {
+        const info = formBasic.getValues();
+        console.log('Basic', info);
+        setBasic(info as Basic);
+        break;
+      }
     }
+
     setCurrent(current + 1);
   };
 

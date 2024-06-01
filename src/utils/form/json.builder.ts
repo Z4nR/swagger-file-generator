@@ -1,4 +1,4 @@
-import { CombinedState } from './state/types';
+import { CombinedState } from '../state/types';
 
 const validateExampleParam = (
   type: string,
@@ -210,6 +210,16 @@ const oasThreeAbove = (value: CombinedState) => {
           description: 'Add your description here',
           content: {
             'application/json': {
+              schema: {
+                $ref: `#/components/schemas/${req.ref}`,
+              },
+            },
+            'application/xml': {
+              schema: {
+                $ref: `#/components/schemas/${req.ref}`,
+              },
+            },
+            'application/x-www-form-urlencoded': {
               schema: {
                 $ref: `#/components/schemas/${req.ref}`,
               },

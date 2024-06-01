@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
-import { openAPI } from '@/utils/json.builder';
+import { openAPI } from '@/utils/form/json.builder';
 import { useSwaggerState } from '@/utils/state/state';
 
 const SwaggerResult: React.FC = () => {

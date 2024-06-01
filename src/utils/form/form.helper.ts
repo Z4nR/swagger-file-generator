@@ -3,6 +3,7 @@ import {
   basicFormSchema,
   pathFormSchema,
   reqBodySchema,
+  responseSchema,
   schemaFormSchema,
 } from './schema';
 
@@ -10,6 +11,7 @@ export type BasicSwaggerSchema = z.infer<typeof basicFormSchema>;
 export type SchemaSwaggerSchema = z.infer<typeof schemaFormSchema>;
 export type PathSwaggerSchema = z.infer<typeof pathFormSchema>;
 export type ReqSwaggerSchema = z.infer<typeof reqBodySchema>;
+export type ResSwaggerSchema = z.infer<typeof responseSchema>;
 
 export const defaultValuesBasic: Partial<BasicSwaggerSchema> = {
   swagger: '3.0.3',
@@ -41,4 +43,15 @@ export const defaultValuesPath: Partial<PathSwaggerSchema> = {
 export const defaultValueReq: Partial<ReqSwaggerSchema> = {
   endpoint: '',
   ref: '',
+};
+
+export const defaultValueRes: Partial<ResSwaggerSchema> = {
+  endpoint: '',
+  res_param: [
+    {
+      status: '',
+      description: '',
+      ref: '',
+    },
+  ],
 };

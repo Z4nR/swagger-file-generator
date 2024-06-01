@@ -21,8 +21,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Path } from '@/utils/state/types';
-import { PathSwaggerSchema } from '@/utils/form.helper';
+import { PathSwaggerSchema } from '@/utils/form/form.helper';
 import { useSwaggerState } from '@/utils/state/state';
+import { PathData, PathParam } from '@/utils/form/form.types';
 
 const items = [
   { id: 'post', label: 'POST' },
@@ -54,17 +55,17 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
   };
 
   const onSubmit = (values: PathSwaggerSchema) => {
-    setPaths((prevPaths) => [...prevPaths, values]);
+    setPaths((prevPaths: PathSwaggerSchema[]) => [...prevPaths, values]);
     onReset();
   };
 
   useEffect(() => {
     const transformedPaths: Path = {
-      paths: pathsData.map((path) => ({
+      paths: pathsData.map((path: PathData) => ({
         method: path.method,
         endpoint: path.endpoint,
         tags: path.tags,
-        parameters: path.parameters.map((parameter) => ({
+        parameters: path.parameters.map((parameter: PathParam) => ({
           in: parameter.in || '',
           required: parameter.required ?? true,
           type: parameter.type || '',

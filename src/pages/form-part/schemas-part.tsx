@@ -17,7 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SchemaSwaggerSchema } from '@/utils/form.helper';
+import { SchemaSwaggerSchema } from '@/utils/form/form.helper';
+import { SchemaData, SchemaParam } from '@/utils/form/form.types';
 import { Schema } from '@/utils/state/types';
 import { useEffect, useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
@@ -43,15 +44,18 @@ const SchemaPartForm: React.FC<SetValue> = ({ form, setSchema }) => {
   };
 
   const onSubmit = (values: SchemaSwaggerSchema) => {
-    setSchemas((prevSchemas) => [...prevSchemas, values]);
+    setSchemas((prevSchemas: SchemaSwaggerSchema[]) => [
+      ...prevSchemas,
+      values,
+    ]);
     onReset();
   };
 
   useEffect(() => {
     const transformedSchemas: Schema = {
-      schema: schemasData.map((scheme) => ({
+      schema: schemasData.map((scheme: SchemaData) => ({
         name: scheme.name || '',
-        properties: scheme.properties.map((prop) => ({
+        properties: scheme.properties.map((prop: SchemaParam) => ({
           name: prop.name || '',
           type: prop.type || '',
           example: prop.example || '',

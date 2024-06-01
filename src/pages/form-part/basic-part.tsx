@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
-import { BasicSwaggerSchema } from '@/utils/form.helper';
+import { BasicSwaggerSchema } from '@/utils/form/form.helper';
 
 interface SetValue {
   form: UseFormReturn<BasicSwaggerSchema>;

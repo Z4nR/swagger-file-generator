@@ -75,3 +75,14 @@ export const reqBodySchema = z.object({
   endpoint: z.string({ required_error: 'Endpoint required' }),
   ref: z.string({ required_error: 'Refference Schema required' }),
 });
+
+export const responseSchema = z.object({
+  endpoint: z.string({ required_error: 'Endpoint required' }),
+  res_param: z.array(
+    z.object({
+      status: z.string({ required_error: 'Status Code required' }),
+      description: z.string({ required_error: 'Description required' }),
+      ref: z.string({ required_error: 'Refference Schema required' }),
+    })
+  ),
+});
