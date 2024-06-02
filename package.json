@@ -1,7 +1,7 @@
 {
   "name": "swagger-file-generator",
   "private": true,
-  "version": "0.75.20",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
