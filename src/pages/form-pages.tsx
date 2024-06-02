@@ -155,7 +155,8 @@ const SwaggerForm: React.FC = () => {
           <Button
             onClick={() => done()}
             disabled={
-              !formReq.formState.isValid || !req || req.body.length === 0
+              (!formRes.formState.isValid || !res || res.res.length === 0) &&
+              (!formReq.formState.isValid || !req || req.body.length === 0)
             }
           >
             Done
