@@ -50,9 +50,9 @@ export type ReqSwaggerSchema = z.infer<typeof reqBodySchema>;
 export type ResSwaggerSchema = z.infer<typeof responseSchema>;
 
 export const defaultValuesBasic: Partial<BasicSwaggerSchema> = {
-  swagger: '3.0.3',
+  swagger: '',
   description: '',
-  version: '0.0.0',
+  version: '',
   license: {
     name: '',
     url: '',
@@ -61,6 +61,7 @@ export const defaultValuesBasic: Partial<BasicSwaggerSchema> = {
 };
 
 export const defaultValueSchema: Partial<SchemaSwaggerSchema> = {
+  name: '',
   properties: [
     {
       name: '',
@@ -83,11 +84,7 @@ export const defaultValueReq: Partial<ReqSwaggerSchema> = {
 
 export const defaultValueRes: Partial<ResSwaggerSchema> = {
   endpoint: '',
-  res_param: [
-    {
-      status: '',
-      description: '',
-      ref: '',
-    },
-  ],
+  status: '',
+  description: '',
+  ref: '',
 };

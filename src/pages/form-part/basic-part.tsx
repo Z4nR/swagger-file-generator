@@ -83,7 +83,7 @@ const BasicPartForm: React.FC<SetValue> = ({ form }) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>Set your uRL server here.</FormDescription>
+                  <FormDescription>Set your url server here.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

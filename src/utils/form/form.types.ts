@@ -43,14 +43,6 @@ export interface ReqData {
 
 export interface ResData {
   endpoint: string;
-  res_param: {
-    status: string;
-    description: string;
-    ref?: string | undefined;
-  }[];
-}
-
-export interface ResParam {
   status: string;
   description: string;
   ref?: string | undefined;

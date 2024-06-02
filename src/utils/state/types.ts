@@ -8,11 +8,9 @@ export interface Req {
 export interface Res {
   res: {
     endpoint: string;
-    res_param: {
-      status: string;
-      description: string;
-      ref: string;
-    }[];
+    status: string;
+    description: string;
+    ref: string;
   }[];
 }
 

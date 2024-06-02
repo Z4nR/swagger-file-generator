@@ -61,13 +61,9 @@ export const useSwaggerState = create<
   res: [
     {
       endpoint: '',
-      res_param: [
-        {
-          status: '',
-          description: '',
-          ref: '',
-        },
-      ],
+      status: '',
+      description: '',
+      ref: '',
     },
   ],
   setBasic: (state: Basic) =>

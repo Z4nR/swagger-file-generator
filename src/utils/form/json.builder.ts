@@ -204,8 +204,9 @@ const oasThreeAbove = (value: CombinedState) => {
       };
     });
 
-    const body = value.body.map((req) => {
-      if (req.endpoint === item.endpoint) {
+    const body = value.body
+      .filter((req) => req.endpoint === item.endpoint)
+      .map((req) => {
         return {
           description: 'Add your description here',
           content: {
@@ -226,45 +227,39 @@ const oasThreeAbove = (value: CombinedState) => {
             },
           },
         };
-      }
-    });
+      });
 
-    const res = value.res.map((res) => {
-      if (res.endpoint === item.endpoint) {
-        const param = res.res_param.map((param) => {
-          if (param.ref === undefined) {
-            return {
-              [param.status]: {
-                default: {
-                  description: param.description,
-                },
-              },
-            };
-          }
-
+    const res = value.res
+      .filter((res) => res.endpoint === item.endpoint)
+      .map((res) => {
+        if (res.ref === undefined) {
           return {
-            [param.status]: {
-              description: param.description,
-              content: {
-                'application/json': {
-                  schema: {
-                    $ref: `#/components/schemas/${param.ref}`,
-                  },
-                },
-                'application/xml': {
-                  schema: {
-                    $ref: `#/components/schemas/${param.ref}`,
-                  },
-                },
+            [res.status]: {
+              default: {
+                description: res.description,
               },
             },
           };
-        });
+        }
 
-        console.log(param);
-        return { ...param };
-      }
-    });
+        return {
+          [res.status]: {
+            description: res.description,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: `#/components/schemas/${res.ref}`,
+                },
+              },
+              'application/xml': {
+                schema: {
+                  $ref: `#/components/schemas/${res.ref}`,
+                },
+              },
+            },
+          },
+        };
+      });
 
     console.log(res);
 

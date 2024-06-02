@@ -147,10 +147,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
               name="tags"
               render={({ field }) => (
                 <FormItem className="flex-1">
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a tags" />

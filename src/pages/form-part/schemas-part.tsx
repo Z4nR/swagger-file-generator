@@ -100,7 +100,7 @@ const SchemaPartForm: React.FC<SetValue> = ({ form, setSchema }) => {
                         <FormLabel>Type</FormLabel>
                         <Select
                           onValueChange={field.onChange}
-                          defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>

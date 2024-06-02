@@ -22,16 +22,11 @@ import {
   ResSwaggerSchema,
   status,
 } from '@/utils/form/form.helper';
-import {
-  ItemStatus,
-  ReqData,
-  ResData,
-  ResParam,
-} from '@/utils/form/form.types';
+import { ItemStatus, ReqData, ResData } from '@/utils/form/form.types';
 import { useSwaggerState } from '@/utils/state/state';
 import { Req, Res } from '@/utils/state/types';
 import { useEffect, useState } from 'react';
-import { UseFormReturn, useFieldArray } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 
 interface SetValue {
   formReq: UseFormReturn<ReqSwaggerSchema>;
@@ -69,14 +64,6 @@ const RequestResponsePartForm: React.FC<SetValue> = ({
   }, [body, setReq]);
 
   const [res, setResponse] = useState<ResSwaggerSchema[]>([]);
-  const {
-    fields: resparam,
-    append: appendResParam,
-    remove: removeResParam,
-  } = useFieldArray({
-    name: 'res_param',
-    control: formRes.control,
-  });
 
   const onResetRes = () => {
     formRes.reset();
@@ -94,11 +81,9 @@ const RequestResponsePartForm: React.FC<SetValue> = ({
     const transformedResponse: Res = {
       res: res.map((response: ResData) => ({
         endpoint: response.endpoint || '',
-        res_param: response.res_param.map((parameter: ResParam) => ({
-          status: parameter.status || '',
-          description: parameter.description || '',
-          ref: parameter.ref || '',
-        })),
+        status: response.status || '',
+        description: response.description || '',
+        ref: response.ref || '',
       })),
     };
     setRes(transformedResponse);
@@ -122,7 +107,7 @@ const RequestResponsePartForm: React.FC<SetValue> = ({
                       <FormLabel>Endpoint</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -150,7 +135,7 @@ const RequestResponsePartForm: React.FC<SetValue> = ({
                       <FormLabel>Ref</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -206,153 +191,120 @@ const RequestResponsePartForm: React.FC<SetValue> = ({
                 <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
                   Response
                 </h4>
-                <FormField
-                  control={formRes.control}
-                  name="endpoint"
-                  render={({ field }) => (
-                    <FormItem className="flex-1">
-                      <FormLabel>Endpoint</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a endpoint" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {paths.map((path, index) => (
-                            <SelectItem key={index} value={path.endpoint}>
-                              {path.endpoint}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormDescription>Choose the endpoint.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
-                  Response Parameter
-                </h4>
-                {resparam.map((_, resIndex) => (
-                  <Card className="px-2 pb-2" key={resIndex}>
-                    <div className="gap-2 grid grid-cols-2">
-                      <FormField
-                        control={formRes.control}
-                        name={`res_param.${resIndex}.status`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Status Code</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a status code" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {status.map((item: ItemStatus, index) => (
-                                  <SelectItem key={index} value={item.status}>
-                                    {item.status} {item.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormDescription>
-                              Select the status code for the response.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={formRes.control}
-                        name={`res_param.${resIndex}.description`}
-                        render={({ field }) => (
-                          <FormItem className="flex-1">
-                            <FormLabel>Description</FormLabel>
+                <Card className="px-2 pb-2">
+                  <div className="gap-2 grid grid-cols-2">
+                    <FormField
+                      control={formRes.control}
+                      name="endpoint"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Endpoint</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
                             <FormControl>
-                              <Input
-                                placeholder="Enter response description value"
-                                {...field}
-                              />
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a endpoint" />
+                              </SelectTrigger>
                             </FormControl>
-                            <FormDescription>
-                              Add some response description value
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={formRes.control}
-                        name={`res_param.${resIndex}.ref`}
-                        render={({ field }) => (
-                          <FormItem className="flex-1">
-                            <FormLabel>Ref</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a schema" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {schema.map((scheme, index) => (
-                                  <SelectItem key={index} value={scheme.name}>
-                                    {scheme.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormDescription>
-                              Choose the schema for response ref.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </Card>
-                ))}
-                <div className="flex flex-row gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="mt-2"
-                    onClick={() =>
-                      appendResParam({
-                        status: '',
-                        description: '',
-                        ref: '',
-                      })
-                    }
-                  >
-                    Add Param
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="mt-2 ml-1 bg-red-300 hover:bg-red-500 hover:text-white"
-                    onClick={() => {
-                      if (resparam.length >= 1) {
-                        removeResParam(resparam.length - 1);
-                      }
-                    }}
-                    disabled={resparam.length < 1}
-                  >
-                    Remove Param
-                  </Button>
-                </div>
+                            <SelectContent>
+                              {paths.map((path, index) => (
+                                <SelectItem key={index} value={path.endpoint}>
+                                  {path.endpoint}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                            Choose the endpoint.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={formRes.control}
+                      name="status"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Status Code</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a status code" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {status.map((item: ItemStatus, index) => (
+                                <SelectItem key={index} value={item.status}>
+                                  {item.status} {item.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                            Select the status code for the response.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={formRes.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter response description value"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Add some response description value
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={formRes.control}
+                      name="ref"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Ref</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a schema" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {schema.map((scheme, index) => (
+                                <SelectItem key={index} value={scheme.name}>
+                                  {scheme.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormDescription>
+                            Choose the schema for response ref.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </Card>
+
                 <div className="flex flex-row mt-3">
                   <h5 className="flex-1 font-medium">
                     Response Added: {res.length}
