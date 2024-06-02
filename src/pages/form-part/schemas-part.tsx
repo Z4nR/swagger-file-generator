@@ -90,7 +90,7 @@ const SchemaPartForm: React.FC<SetValue> = ({ form, setSchema }) => {
               Properties of Schema
             </h4>
             {properties.map((_, propertyIndex) => (
-              <Card className="px-2" key={propertyIndex}>
+              <Card className="px-2 pb-1" key={propertyIndex}>
                 <div className="gap-2 grid grid-cols-2">
                   <FormField
                     control={form.control}

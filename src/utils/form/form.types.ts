@@ -46,12 +46,22 @@ export interface ResData {
   res_param: {
     status: string;
     description: string;
-    ref: string;
+    ref?: string | undefined;
   }[];
 }
 
 export interface ResParam {
   status: string;
   description: string;
-  ref: string;
+  ref?: string | undefined;
+}
+
+export interface ItemMethod {
+  id: string;
+  label: string;
+}
+
+export interface ItemStatus {
+  status: string;
+  label: string;
 }

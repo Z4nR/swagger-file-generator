@@ -13,7 +13,7 @@ const App: React.FC = () => {
         Create by WhatNext
       </h4>
       <Separator className="my-4" />
-      <div className="flex gap-3">
+      <div className="flex gap-3 lg:flex-row flex-col">
         <div className="flex-1 p-4">
           <SwaggerForm />
         </div>

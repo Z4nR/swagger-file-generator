@@ -10,6 +10,7 @@ import {
   ResSwaggerSchema,
   SchemaSwaggerSchema,
   defaultValueReq,
+  defaultValueRes,
   defaultValueSchema,
   defaultValuesBasic,
   defaultValuesPath,
@@ -60,7 +61,7 @@ const SwaggerForm: React.FC = () => {
 
   const formRes = useForm<ResSwaggerSchema>({
     resolver: zodResolver(responseSchema),
-    defaultValues: defaultValueReq,
+    defaultValues: defaultValueRes,
     mode: 'onChange',
   });
 

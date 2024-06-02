@@ -229,6 +229,45 @@ const oasThreeAbove = (value: CombinedState) => {
       }
     });
 
+    const res = value.res.map((res) => {
+      if (res.endpoint === item.endpoint) {
+        const param = res.res_param.map((param) => {
+          if (param.ref === undefined) {
+            return {
+              [param.status]: {
+                default: {
+                  description: param.description,
+                },
+              },
+            };
+          }
+
+          return {
+            [param.status]: {
+              description: param.description,
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: `#/components/schemas/${param.ref}`,
+                  },
+                },
+                'application/xml': {
+                  schema: {
+                    $ref: `#/components/schemas/${param.ref}`,
+                  },
+                },
+              },
+            },
+          };
+        });
+
+        console.log(param);
+        return { ...param };
+      }
+    });
+
+    console.log(res);
+
     const method = item.method.map((http) => {
       if (['put', 'post', 'patch'].includes(http)) {
         return {
@@ -237,6 +276,7 @@ const oasThreeAbove = (value: CombinedState) => {
             description: 'Add your description here',
             parameters: param,
             requestBody: { ...body },
+            responses: { ...res },
           },
         };
       }

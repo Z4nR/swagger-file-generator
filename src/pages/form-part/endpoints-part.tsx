@@ -21,17 +21,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Path } from '@/utils/state/types';
-import { PathSwaggerSchema } from '@/utils/form/form.helper';
+import { PathSwaggerSchema, methods } from '@/utils/form/form.helper';
 import { useSwaggerState } from '@/utils/state/state';
-import { PathData, PathParam } from '@/utils/form/form.types';
-
-const items = [
-  { id: 'post', label: 'POST' },
-  { id: 'get', label: 'GET' },
-  { id: 'put', label: 'PUT' },
-  { id: 'patch', label: 'PATCH' },
-  { id: 'delete', label: 'DELETE' },
-] as const;
+import { ItemMethod, PathData, PathParam } from '@/utils/form/form.types';
 
 interface SetValue {
   form: UseFormReturn<PathSwaggerSchema>;
@@ -92,9 +84,9 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
               render={() => (
                 <FormItem>
                   <div className="flex flex-row gap-4">
-                    {items.map((item) => (
+                    {methods.map((item: ItemMethod, index) => (
                       <FormField
-                        key={item.id}
+                        key={index}
                         control={form.control}
                         name="method"
                         render={({ field }) => (
@@ -183,7 +175,7 @@ const PathPartForm: React.FC<SetValue> = ({ form, setEndpoint }) => {
               Parameter
             </h4>
             {parameters.map((_, parameterIndex) => (
-              <Card className="px-2" key={parameterIndex}>
+              <Card className="px-2 pb-1" key={parameterIndex}>
                 <div className="gap-2 grid grid-cols-2">
                   <FormField
                     control={form.control}
