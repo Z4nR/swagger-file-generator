@@ -107,8 +107,9 @@ const oasTwo = (value: CombinedState) => {
       };
     });
 
-    const body = value.body.map((req) => {
-      if (req.endpoint === item.endpoint) {
+    const body = value.body
+      .filter((req) => req.endpoint === item.endpoint)
+      .map((req) => {
         return {
           in: 'body',
           name: 'body',
@@ -118,8 +119,39 @@ const oasTwo = (value: CombinedState) => {
             $ref: `#/definitions/${req.ref}`,
           },
         };
-      }
-    });
+      });
+
+    const res = value.res
+      .filter((res) => res.endpoint === item.endpoint)
+      .map((res) => {
+        if (res.ref === '') {
+          return {
+            [res.status]: {
+              default: {
+                description: res.description,
+              },
+            },
+          };
+        }
+
+        return {
+          [res.status]: {
+            description: res.description,
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: `#/components/schemas/${res.ref}`,
+                },
+              },
+              'application/xml': {
+                schema: {
+                  $ref: `#/components/schemas/${res.ref}`,
+                },
+              },
+            },
+          },
+        };
+      });
 
     const method = item.method.map((http) => {
       if (['put', 'post', 'patch'].includes(http)) {
@@ -128,6 +160,7 @@ const oasTwo = (value: CombinedState) => {
             tags: [item.tags],
             description: 'Add your description here',
             parameters: [...param, ...body],
+            responses: { ...res },
           },
         };
       }
@@ -232,7 +265,7 @@ const oasThreeAbove = (value: CombinedState) => {
     const res = value.res
       .filter((res) => res.endpoint === item.endpoint)
       .map((res) => {
-        if (res.ref === undefined) {
+        if (res.ref === '') {
           return {
             [res.status]: {
               default: {
@@ -260,8 +293,6 @@ const oasThreeAbove = (value: CombinedState) => {
           },
         };
       });
-
-    console.log(res);
 
     const method = item.method.map((http) => {
       if (['put', 'post', 'patch'].includes(http)) {

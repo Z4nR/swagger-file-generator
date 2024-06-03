@@ -191,7 +191,7 @@ const RequestResponsePartForm: React.FC<SetValue> = ({
                 <h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
                   Response
                 </h4>
-                <Card className="px-2 pb-2">
+                <Card className="px-2 pb-1 mt-2">
                   <div className="gap-2 grid grid-cols-2">
                     <FormField
                       control={formRes.control}
