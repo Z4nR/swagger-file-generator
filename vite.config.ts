@@ -27,23 +27,23 @@ export default defineConfig({
         short_name: 'SwagGen',
         icons: [
           {
-            src: '/WhatColors/pwa-64x64.png',
+            src: '/swagger-file-generator/pwa-64x64.png',
             sizes: '64x64',
             type: 'image/png',
           },
           {
-            src: '/WhatColors/pwa-192x192.png',
+            src: '/swagger-file-generator/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/WhatColors/pwa-512x512.png',
+            src: '/swagger-file-generator/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/WhatColors/maskable-icon-512x512.png',
+            src: '/swagger-file-generator/maskable-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
@@ -53,7 +53,7 @@ export default defineConfig({
       injectRegister: 'auto',
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{ts,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,ts,css,html,ico,png,svg}'],
         clientsClaim: true,
         skipWaiting: true,
         sourcemap: false,
