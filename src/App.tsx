@@ -1,26 +1,28 @@
 import { Separator } from './components/ui/separator';
-import SwaggerForm from './pages/form-pages';
 import './styles/index.css';
-import SwaggerResult from './pages/form-result';
+import WebsiteLogo from './assets/swagpart-logo.svg';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import FAQPage from './pages/FAQPage';
 
 const App: React.FC = () => {
   return (
     <div className="w-full">
-      <h3 className="mt-6 text-2xl font-semibold text-center">
-        Generate Your Swagger Spec
-      </h3>
+      <div className="flex justify-center my-3">
+        <img
+          src={WebsiteLogo}
+          alt="Website Image"
+          className="w-[300px] h-full"
+        ></img>
+      </div>
       <h4 className="mt-2 text-sm font-semibold text-center">
         Create by WhatNext
       </h4>
       <Separator className="my-4" />
-      <div className="flex gap-3 lg:flex-row flex-col">
-        <div className="flex-1 p-4">
-          <SwaggerForm />
-        </div>
-        <div className="flex-1">
-          <SwaggerResult />
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/faq" element={<FAQPage />} />
+      </Routes>
     </div>
   );
 };

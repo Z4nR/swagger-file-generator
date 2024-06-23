@@ -11,8 +11,8 @@ export default defineConfig({
     ...minimal2023Preset,
     png: {
       compressionLevel: 9,
-      quality: 85,
+      quality: 95,
     },
   },
-  images: ['public/vite.svg'],
+  images: ['public/swagpart.svg'],
 });
