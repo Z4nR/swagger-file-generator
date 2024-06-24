@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import FaqAccordion from './faq-body/faq-accordion';
+import Changelog from './faq-body/changelog';
 
 const FAQPage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,8 +12,12 @@ const FAQPage: React.FC = () => {
         variant={'destructive'}
         className="right-3 bottom-3 z-10 fixed"
       >
-        Kembali
+        Back
       </Button>
+      <div className="w-full flex flex-row">
+        <Changelog />
+        <FaqAccordion />
+      </div>
     </>
   );
 };

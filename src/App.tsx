@@ -16,7 +16,13 @@ const App: React.FC = () => {
         ></img>
       </div>
       <h4 className="mt-2 text-sm font-semibold text-center">
-        Create by WhatNext
+        Created with &hearts; by{' '}
+        <a
+          className="hover:text-blue-600"
+          href="https://github.com/WhatNext-ID"
+        >
+          WhatNext
+        </a>
       </h4>
       <Separator className="my-4" />
       <Routes>

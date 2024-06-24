@@ -1,7 +1,7 @@
 import BasicPartForm from '@/pages/form-part/basic-part';
 import PathPartForm from '@/pages/form-part/endpoints-part';
 import SchemaPartForm from '@/pages/form-part/schemas-part';
-import RequestPartForm from './form-part/request-response-part';
+import RequestPartForm from '../form-part/request-response-part';
 import { Button } from '@/components/ui/button';
 import {
   BasicSwaggerSchema,
