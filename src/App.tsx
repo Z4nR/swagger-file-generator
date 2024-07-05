@@ -20,6 +20,8 @@ const App: React.FC = () => {
         <a
           className="hover:text-blue-600"
           href="https://github.com/WhatNext-ID"
+          target="_blank"
+          rel="noreferrer"
         >
           WhatNext
         </a>
