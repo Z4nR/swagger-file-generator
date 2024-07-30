@@ -15,7 +15,6 @@ const SwaggerResult: React.FC = () => {
     useSwaggerState();
   const data = openAPI(value);
   const initialJsonString = JSON.stringify(data, null, 2);
-  console.log(initialJsonString);
 
   const [jsonString, setJsonString] = useState(initialJsonString);
 
@@ -24,7 +23,6 @@ const SwaggerResult: React.FC = () => {
   }, [initialJsonString]);
 
   const onChange = useCallback((val: string) => {
-    console.log('val:', val);
     setJsonString(val);
   }, []);
 
@@ -32,7 +30,6 @@ const SwaggerResult: React.FC = () => {
   try {
     jsonParse = JSON.parse(jsonString);
   } catch (e) {
-    console.error('Invalid JSON:', e);
     jsonParse = {};
   }
 

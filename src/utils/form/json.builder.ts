@@ -81,8 +81,6 @@ const validateExampleProp = (
 };
 
 export const openAPI = (value: CombinedState) => {
-  console.log(value);
-
   if (value.swagger !== '2.0') {
     return oasThreeAbove(value);
   } else {
